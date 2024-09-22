@@ -11,7 +11,7 @@ spring:
     password: 0040105715@Kodson12345.com
     username: root
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
     properties:
