@@ -3,7 +3,7 @@ name: Build and Push Backend to Docker Hub
 on:
   push:
     branches:
-      - main  # Trigger on push to main branch
+      - main
 
 jobs:
   build:
@@ -13,11 +13,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up JDK 18
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '18'
+
+      - name: Build with Maven
+        run: mvn clean package
+
       - name: Log in to Docker Hub
         run: echo "${{ secrets.KODSON_DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.KODSON_DOCKER_USERNAME }}" --password-stdin
 
       - name: Build Docker image
-        run: docker build -t yourdockerhubusername/backend:latest .
+        run: docker build -t kodson/backend:latest .
 
       - name: Push Docker image to Docker Hub
-        run: docker push yourdockerhubusername/backend:latest
+        run: docker push kodson/backend:latest
+
