@@ -47,6 +47,13 @@ jobs:
       - name: Build with Maven
         run: mvn clean package
 
+      - name: Verify JAR file exists
+        run: |
+          if [ ! -f target/KodsonApi.jar ]; then
+            echo "JAR file not found!"
+            exit 1
+          fi
+
       - name: Log in to Docker Hub
         run: echo "${{ secrets.KODSON_DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.KODSON_DOCKER_USERNAME }}" --password-stdin
 
