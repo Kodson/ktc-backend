@@ -33,7 +33,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject(NEW_USER_ACCOUNT_VERIFICATION);
-            message.setFrom("peterson@petmaxtechnologies.com");
+            message.setFrom("info@kodsonplusltd.com");
             message.setTo(to);
             message.setText(getEmailMessage(name, "http://localhost:8081", token));
             emailSender.send(message);
@@ -49,7 +49,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject(OTP);
-            message.setFrom("peterson@petmaxtechnologies.com");
+            message.setFrom("info@kodsonplusltd.com");
             message.setTo(to);
             message.setText("Your one time password is :"+ otp +"\n this expires in 5 minutes");
             emailSender.send(message);
@@ -64,7 +64,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject("Password Reset Link");
-            message.setFrom("peterson@petmaxtechnologies.com");
+            message.setFrom("info@kodsonplusltd.com");
             message.setTo(to);
             message.setText("https://kodsonsystems.com/resetpassword");
             emailSender.send(message);
