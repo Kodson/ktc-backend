@@ -1,4 +1,4 @@
-FROM openjdk:18-jdk
+FROM openjdk:21-jdk
 
 COPY target/KodsonApi.jar .
 
