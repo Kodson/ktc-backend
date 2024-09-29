@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = { "/","kodson/task"})
@@ -24,9 +25,8 @@ public class TasksResource {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Tasks>> getAllTask(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                       @RequestParam(value = "size", defaultValue = "20") int size) {
-        return ResponseEntity.ok().body(taskService.getAllTask(page, size));
+    public List<Tasks> getAllTask() {
+        return taskService.getAllTask();
     }
 
     @GetMapping("/{id}")

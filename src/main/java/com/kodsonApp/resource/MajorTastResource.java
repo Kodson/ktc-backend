@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = { "/", "kodson/major" })
@@ -21,9 +22,8 @@ public class MajorTastResource {
     }
 
     @GetMapping
-    public ResponseEntity<Page<MajorTask>> getAllMajor(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                       @RequestParam(value = "size", defaultValue = "20") int size) {
-        return ResponseEntity.ok().body(majorTaskService.getAllMajorTask(page, size));
+    public List<MajorTask> getAllMajor(){
+        return majorTaskService.getAllMajorTask();
     }
 
     @GetMapping("/{id}")

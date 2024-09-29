@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @Transactional(rollbackOn = Exception.class)
@@ -19,8 +21,8 @@ public class MajorTaskService {
     @Autowired
     private final MajorTaskRepo majorTaskRepo;
 
-    public Page<MajorTask> getAllMajorTask(int page, int size) {
-        return majorTaskRepo.findAll(PageRequest.of(page, size));
+    public List<MajorTask> getAllMajorTask() {
+        return majorTaskRepo.findAll();
     }
 
     public MajorTask getMajorTask(String id) {

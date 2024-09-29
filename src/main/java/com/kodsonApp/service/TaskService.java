@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @Transactional(rollbackOn = Exception.class)
@@ -20,8 +22,8 @@ public class TaskService {
     @Autowired
     private final TaskRepo taskRepo;
 
-    public Page<Tasks> getAllTask(int page, int size) {
-        return taskRepo.findAll(PageRequest.of(page, size));
+    public List<Tasks> getAllTask() {
+        return taskRepo.findAll();
     }
 
     public Tasks getTask(String id) {
