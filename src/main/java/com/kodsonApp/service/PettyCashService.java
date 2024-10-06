@@ -56,20 +56,52 @@ public class PettyCashService {
         return pettyCashRepo.findByStatus("approved");
     }
 
+    public List<PettyCash> getApprovedPettyCashWithUser(String userName) {
+        return pettyCashRepo.findByStatusAndUserName("approved", userName); // Update to use userName
+    }
+
+    public List<PettyCash> getApprovedPettyCashWithStation(String station) {
+        return pettyCashRepo.findByStatusAndStation("approved", station); // Update to use userName
+    }
+
+
     public List<PettyCash> getPendingPettyCash() {
         return pettyCashRepo.findByStatus("pending");
     }
 
+    public List<PettyCash> getPendingPettyCashWithUser(String userName) {
+        return pettyCashRepo.findByStatusAndUserName("pending", userName); // Update to use userName
+    }
+
+    public List<PettyCash> getPendingPettyCashWithStation(String station) {
+        return pettyCashRepo.findByStatusAndStation("pending", station); // Update to use userName
+    }
+
     public List<PettyCash> getSuspendedPettyCash() {
         return pettyCashRepo.findByStatus("suspended");
+    }
+    public List<PettyCash> getSuspendPettyCashWithUser(String userName) {
+        return pettyCashRepo.findByStatusAndUserName("suspended", userName); // Update to use userName
+    }
+
+    public List<PettyCash> getSuspendPettyCashWithStation(String station) {
+        return pettyCashRepo.findByStatusAndStation("suspended", station); // Update to use userName
     }
 
     public List<PettyCash> getDeclinedPettyCash() {
         return pettyCashRepo.findByStatus("declined");
     }
 
-    public List<PettyCash> getApprovedPettyCashBetweenDates(LocalDate startDate, LocalDate endDate) {
-        return pettyCashRepo.findByStatusAndDateBetween("approved", startDate, endDate);
+    public List<PettyCash> getDeclinedPettyCashWithUser(String userName) {
+        return pettyCashRepo.findByStatusAndUserName("declined", userName); // Update to use userName
+    }
+
+    public List<PettyCash> getDeclinedPettyCashWithStation(String station) {
+        return pettyCashRepo.findByStatusAndStation("declined", station); // Update to use userName
+    }
+
+    public List<PettyCash> getApprovedPettyCashBetweenDates(LocalDate startDate, LocalDate endDate, String station) {
+        return pettyCashRepo.findByStatusAndDateBetweenAndStation("approved", startDate, endDate, station);
     }
 
     public List<PettyCash> getRequestsByStatus(String status) {

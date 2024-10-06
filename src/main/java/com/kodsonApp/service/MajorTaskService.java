@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -42,4 +43,15 @@ public class MajorTaskService {
         task.setMembers(members);
         return majorTaskRepo.save(task);
     }
+
+    // MajorTaskService.java
+
+    public List<MajorTask> getTasksByUserOrMember(String userName) {
+        List<MajorTask> allTasks = majorTaskRepo.findAll();
+        return allTasks.stream()
+                .filter(task -> task.getUserName().equals(userName) ||
+                        (task.getMembers() != null && task.getMembers().contains(userName)))
+                .collect(Collectors.toList());
+    }
+
 }

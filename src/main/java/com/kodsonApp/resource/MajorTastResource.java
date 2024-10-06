@@ -53,4 +53,13 @@ public class MajorTastResource {
         }
         return String.join(", ", membersArray);
     }
+
+    // MajorTaskResource.java
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<List<MajorTask>> getAllTasksForUser(@PathVariable("username") String username) {
+        List<MajorTask> tasks = majorTaskService.getTasksByUserOrMember(username);
+        return ResponseEntity.ok().body(tasks);
+    }
+
 }

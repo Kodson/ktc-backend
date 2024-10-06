@@ -131,12 +131,23 @@ public class KodsonResource extends ExceptionHandling {
         return new ResponseEntity<>(OK);
     }
 
-    @GetMapping("/forgotPassword")
-    public ResponseEntity<HttpResponse> resetPassword(@Valid @RequestBody Kodson restaurant) throws MessagingException, EmailNotFoundException, javax.mail.MessagingException, IOException, ExecutionException {
-        Kodson restaurantUserMail = restaurantCache.get("linkMail");
-        kodsonService.resetPassword(restaurantUserMail.getEmail(),restaurant.getPassword());
-        System.out.println(restaurantUserMail.getEmail()+" "+restaurant.getPassword());
-        return new ResponseEntity<>(OK);
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody Kodson restaurant)
+            throws MessagingException, EmailNotFoundException, javax.mail.MessagingException, IOException, ExecutionException {
+
+        // Check if email and password are present
+        if (restaurant.getEmail() == null || restaurant.getPassword() == null) {
+            return new ResponseEntity<>("Email or password is missing", HttpStatus.BAD_REQUEST);
+        }
+
+        // Perform password reset logic
+        kodsonService.resetPassword(restaurant.getEmail(), restaurant.getPassword());
+
+        // For debugging purposes, you can log the email and password
+        System.out.println("Email: " + restaurant.getEmail() + ", Password: " + restaurant.getPassword());
+
+        // Return success response
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/find/{username}")
@@ -239,5 +250,18 @@ public class KodsonResource extends ExceptionHandling {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         otpService.generateOtp(username);
     }
+
+    @PostMapping("/findByPhone")
+    public ResponseEntity<String> findUserByPhone(@RequestBody Map<String, String> payload) {
+        String phone = payload.get("phone");
+        Kodson user = kodsonService.findUserByPhone(phone);
+
+        if (user != null) {
+            return new ResponseEntity<>("accountMail:" + user.getEmail(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
 
 }

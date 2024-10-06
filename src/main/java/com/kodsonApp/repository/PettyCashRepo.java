@@ -12,5 +12,10 @@ import java.util.Optional;
 public interface PettyCashRepo extends JpaRepository<PettyCash, String> {
         Optional<PettyCash> findById(String id);
         List<PettyCash> findByStatus(String status);
-        List<PettyCash> findByStatusAndDateBetween(String status, LocalDate startDate, LocalDate endDate);
+        List<PettyCash> findByStatusAndDateBetweenAndStation(String status, LocalDate startDate, LocalDate endDate, String station);
+
+
+        List<PettyCash> findByStatusAndUserName(String status, String userName);
+
+        List<PettyCash> findByStatusAndStation(String status, String station);
 }

@@ -49,9 +49,34 @@ public class PettyCashResource {
         return ResponseEntity.ok().body(pettyCashService.getApprovedPettyCash());
     }
 
+    @GetMapping("/approvedWithUser")
+    public ResponseEntity<List<PettyCash>> getApprovedPettyWithUser(@RequestParam String userName) {
+        List<PettyCash> pettyCashList = pettyCashService.getApprovedPettyCashWithUser(userName);
+        return ResponseEntity.ok().body(pettyCashList);
+    }
+
+    @GetMapping("/approvedWithStation")
+    public ResponseEntity<List<PettyCash>> getApprovedPettyWithStation(@RequestParam String station) {
+        List<PettyCash> pettyCashList = pettyCashService.getApprovedPettyCashWithStation(station);
+        return ResponseEntity.ok().body(pettyCashList);
+    }
+
+
     @GetMapping("/pending")
     public ResponseEntity<List<PettyCash>> getPendingPetty() {
         return ResponseEntity.ok().body(pettyCashService.getPendingPettyCash());
+    }
+
+    @GetMapping("/pendingWithUser")
+    public ResponseEntity<List<PettyCash>> getPendingPettyWithUser(@RequestParam String userName) {
+        List<PettyCash> pettyCashList = pettyCashService.getPendingPettyCashWithUser(userName);
+        return ResponseEntity.ok().body(pettyCashList);
+    }
+
+    @GetMapping("/pendingWithStation")
+    public ResponseEntity<List<PettyCash>> getPendingPettyWithStation(@RequestParam String station) {
+        List<PettyCash> pettyCashList = pettyCashService.getPendingPettyCashWithStation(station);
+        return ResponseEntity.ok().body(pettyCashList);
     }
 
     @GetMapping("/suspended")
@@ -59,14 +84,40 @@ public class PettyCashResource {
         return ResponseEntity.ok().body(pettyCashService.getSuspendedPettyCash());
     }
 
+    @GetMapping("/suspendedWithUser")
+    public ResponseEntity<List<PettyCash>> getSuspendedPettyWithUser(@RequestParam String userName) {
+        List<PettyCash> pettyCashList = pettyCashService.getSuspendPettyCashWithUser(userName);
+        return ResponseEntity.ok().body(pettyCashList);
+    }
+
+    @GetMapping("/suspendedWithStation")
+    public ResponseEntity<List<PettyCash>> getSuspendedPettyWithStation(@RequestParam String station) {
+        List<PettyCash> pettyCashList = pettyCashService.getSuspendPettyCashWithStation(station);
+        return ResponseEntity.ok().body(pettyCashList);
+    }
+
     @GetMapping("/declined")
     public ResponseEntity<List<PettyCash>> getDeclinedPetty() {
         return ResponseEntity.ok().body(pettyCashService.getDeclinedPettyCash());
     }
 
+    @GetMapping("/declinedWithUser")
+    public ResponseEntity<List<PettyCash>> getDeclinedPettyWithUser(@RequestParam String userName) {
+        List<PettyCash> pettyCashList = pettyCashService.getDeclinedPettyCashWithUser(userName);
+        return ResponseEntity.ok().body(pettyCashList);
+    }
+
+    @GetMapping("/declinedWithStation")
+    public ResponseEntity<List<PettyCash>> getDeclinedPettyWithStation(@RequestParam String station) {
+        List<PettyCash> pettyCashList = pettyCashService.getDeclinedPettyCashWithStation(station);
+        return ResponseEntity.ok().body(pettyCashList);
+    }
+
     @GetMapping("/approvedBetween")
-    public ResponseEntity<List<PettyCash>> getApprovedPettyBetween(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
-        return ResponseEntity.ok().body(pettyCashService.getApprovedPettyCashBetweenDates(startDate, endDate));
+    public ResponseEntity<List<PettyCash>> getApprovedPettyBetween(@RequestParam LocalDate startDate,
+                                                                   @RequestParam LocalDate endDate,
+                                                                   @RequestParam String station) {
+        return ResponseEntity.ok().body(pettyCashService.getApprovedPettyCashBetweenDates(startDate, endDate, station));
     }
 
     @GetMapping("/status/{status}")

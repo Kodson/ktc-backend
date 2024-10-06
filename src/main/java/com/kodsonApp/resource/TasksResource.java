@@ -33,4 +33,20 @@ public class TasksResource {
     public ResponseEntity<Tasks> getTask(@PathVariable(value = "id") String id) {
         return ResponseEntity.ok().body(taskService.getTask(id));
     }
+
+    @GetMapping("/user/{username}")
+    public List<Tasks> getAllTaskWithUser(@PathVariable(value = "username") String username) {
+        return taskService.getTasksByUserName(username); // Implement this method in your TaskService
+    }
+
+    // Update task completion details
+    @PutMapping("/{id}")
+    public ResponseEntity<Tasks> updateTaskCompletion(@PathVariable String id, @RequestBody Tasks updatedTask) {
+        try {
+            Tasks task = taskService.updateTaskCompletion(id, updatedTask);
+            return ResponseEntity.ok(task);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null); // Error handling
+        }
+    }
 }
