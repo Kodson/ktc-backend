@@ -35,7 +35,7 @@ public class EmailServiceImpl implements EmailService {
             message.setSubject(NEW_USER_ACCOUNT_VERIFICATION);
             message.setFrom("info@kodsonplusltd.com");
             message.setTo(to);
-            message.setText(getEmailMessage(name, "http://localhost:8081", token));
+            message.setText(getEmailMessage(name, "http://41.139.44.167/:2080", token));
             emailSender.send(message);
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
