@@ -37,6 +37,5 @@ public class Tasks {
     private String finishDate;
     private String percentage;
     private String completed;
-
-
+    private String userPhone;
 }

@@ -40,4 +40,5 @@ public class ItemRequest {
     private String reciever;
     private String userName;
     private String status;
+    private String userPhone;
 }

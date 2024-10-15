@@ -37,6 +37,5 @@ public class PettyCash {
     private String receiver;
     private String status;
     private String userName;
-
-
+    private String userPhone;
 }

@@ -4,6 +4,9 @@ import com.kodsonApp.domain.Dispense;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Repository
 public interface DispenseRepo extends JpaRepository<Dispense, String> {
     // JpaRepository provides built-in CRUD methods like:
@@ -11,4 +14,6 @@ public interface DispenseRepo extends JpaRepository<Dispense, String> {
     // - findById(): To fetch a single record by ID
     // - save(): To create or update a record
     // - deleteById(): To delete a record by ID
+
+    List<Dispense> findByDateBetween(LocalDate startDate, LocalDate endDate);
 }

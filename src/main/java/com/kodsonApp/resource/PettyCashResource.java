@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +19,7 @@ public class PettyCashResource {
     private final PettyCashService pettyCashService;
 
     @PostMapping
-    public ResponseEntity<PettyCash> createPettyCash(@RequestBody PettyCash pettyCash) {
+    public ResponseEntity<PettyCash> createPettyCash(@RequestBody PettyCash pettyCash) throws IOException {
         return ResponseEntity.created(URI.create("/kodson/petty/pettyID")).body(pettyCashService.createPettyCash(pettyCash));
     }
 
@@ -127,7 +128,7 @@ public class PettyCashResource {
 
 
     @PutMapping("/status/{id}")
-    public ResponseEntity<PettyCash> updateStatus(@PathVariable(value = "id") String id, @RequestBody PettyCash pettyCash) {
+    public ResponseEntity<PettyCash> updateStatus(@PathVariable(value = "id") String id, @RequestBody PettyCash pettyCash) throws IOException {
         return ResponseEntity.ok().body(pettyCashService.updateStatus(id, pettyCash));
     }
 

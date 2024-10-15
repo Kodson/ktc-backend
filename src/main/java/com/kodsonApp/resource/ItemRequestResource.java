@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class ItemRequestResource {
 
     // Create a new ItemRequest
     @PostMapping
-    public ResponseEntity<ItemRequest> createItemRequest(@RequestBody ItemRequest itemRequest) {
+    public ResponseEntity<ItemRequest> createItemRequest(@RequestBody ItemRequest itemRequest) throws IOException {
         ItemRequest createdItemRequest = itemRequestService.save(itemRequest);
         return new ResponseEntity<>(createdItemRequest, HttpStatus.CREATED);
     }
@@ -99,7 +100,7 @@ public class ItemRequestResource {
     }
 
     @PutMapping("/status/{id}")
-    public ResponseEntity<ItemRequest> updateStatus(@PathVariable(value = "id") String id, @RequestBody ItemRequest pettyCash) {
+    public ResponseEntity<ItemRequest> updateStatus(@PathVariable(value = "id") String id, @RequestBody ItemRequest pettyCash) throws IOException {
         return ResponseEntity.ok().body(itemRequestService.updateStatus(id, pettyCash));
     }
 }

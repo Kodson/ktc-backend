@@ -3,11 +3,13 @@ package com.kodsonApp.service;
 import com.kodsonApp.domain.ItemRequest;
 import com.kodsonApp.domain.PettyCash;
 import com.kodsonApp.repository.ItemRequestRepo;
+import com.kodsonApp.utility.PettyCashSms;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +20,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ItemRequestService {
     private final ItemRequestRepo itemRequestRepo;
+    private final PettyCashSms pettyCashSms;
 
     // Save a new ItemRequest
-    public ItemRequest save(ItemRequest itemRequest) {
+    public ItemRequest save(ItemRequest itemRequest) throws IOException {
         //log.info("Saving ItemRequest: {}", itemRequest);
+        pettyCashSms.sendGmItem(itemRequest.getItem());
         return itemRequestRepo.save(itemRequest);
     }
 
@@ -77,9 +81,10 @@ public class ItemRequestService {
         return itemRequestRepo.findByStatus(status);
     }
 
-    public ItemRequest updateStatus(String id, ItemRequest pettyCash) {
+    public ItemRequest updateStatus(String id, ItemRequest pettyCash) throws IOException {
         ItemRequest existingPettyCash = getItems(id);
         existingPettyCash.setStatus(pettyCash.getStatus());
+        pettyCashSms.sendManagerItem(existingPettyCash.getItem(),existingPettyCash.getUserPhone());
         return itemRequestRepo.save(existingPettyCash);
     }
 

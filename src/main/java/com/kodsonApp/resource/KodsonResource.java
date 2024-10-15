@@ -195,8 +195,7 @@ public class KodsonResource extends ExceptionHandling {
         }
         return byteArrayOutputStream.toByteArray();
     }
-
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<HttpResponse> confirmUserAccount(@RequestParam("token") String token) {
         Boolean isSuccess = kodsonService.verifyToken(token);
         ResponseEntity<HttpResponse> body = ResponseEntity.ok().body(
@@ -209,6 +208,24 @@ public class KodsonResource extends ExceptionHandling {
                         .build()
         );
         return body;
+    }*/
+
+    @GetMapping("/{token}")
+    public ResponseEntity<HttpResponse> confirmUserAccount(@PathVariable("token") String token) {
+        Boolean isSuccess = kodsonService.verifyToken(token);
+
+        HttpStatus status = isSuccess ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
+        String message = isSuccess ? "Account Verified" : "Invalid or expired token";
+
+        HttpResponse response = HttpResponse.builder()
+                .timeStamp1(LocalDateTime.now().toString())
+                .data(Map.of("Success", isSuccess))
+                .message(message)
+                .status(status)
+                .statusCode(status.value())
+                .build();
+
+        return ResponseEntity.status(status).body(response);
     }
 
     @PostMapping(value = "verify")

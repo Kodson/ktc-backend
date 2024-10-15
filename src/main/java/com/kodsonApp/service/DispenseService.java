@@ -5,6 +5,7 @@ import com.kodsonApp.repository.DispenseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,5 +55,10 @@ public class DispenseService {
                     updatedDispense.setId(id);
                     return dispenseRepo.save(updatedDispense);
                 });
+    }
+
+    // Fetch reports by date range
+    public List<Dispense> fetchReports(LocalDate startDate, LocalDate endDate) {
+        return dispenseRepo.findByDateBetween(startDate, endDate);
     }
 }

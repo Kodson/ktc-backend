@@ -1,7 +1,10 @@
 package com.kodsonApp.service;
 
+import com.kodsonApp.domain.Kodson;
 import com.kodsonApp.domain.PettyCash;
+import com.kodsonApp.repository.KodsonRepository;
 import com.kodsonApp.repository.PettyCashRepo;
+import com.kodsonApp.utility.PettyCashSms;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,6 +24,10 @@ import java.util.List;
 public class PettyCashService {
     @Autowired
     private final PettyCashRepo pettyCashRepo;
+    @Autowired
+    private KodsonRepository repository;
+
+    PettyCashSms pettyCashSms = new PettyCashSms();
 
     public Page<PettyCash> getAllPettyCash(int page, int size) {
         return pettyCashRepo.findAll(PageRequest.of(page, size));
@@ -29,8 +37,11 @@ public class PettyCashService {
         return pettyCashRepo.findById(id).orElseThrow(() -> new RuntimeException("Contact not found"));
     }
 
-    public PettyCash createPettyCash(PettyCash pettyCash) {
+    public PettyCash createPettyCash(PettyCash pettyCash) throws IOException {
         //pettyCash.setStatus("pending");
+        double amount = pettyCash.getAmount();
+        String sender = pettyCash.getUserName();
+        pettyCashSms.sendGm(amount,sender);
         return pettyCashRepo.save(pettyCash);
     }
 
@@ -107,10 +118,31 @@ public class PettyCashService {
     public List<PettyCash> getRequestsByStatus(String status) {
         return pettyCashRepo.findByStatus(status);
     }
-    public PettyCash updateStatus(String id, PettyCash pettyCash) {
+
+
+    public PettyCash updateStatus(String id, PettyCash pettyCash) throws IOException {
         PettyCash existingPettyCash = getPettyCash(id);
         existingPettyCash.setStatus(pettyCash.getStatus());
+        String senderPhone = existingPettyCash.getUserPhone();
+        double amount = existingPettyCash.getAmount();
+        String source = existingPettyCash.getStation();
+        String stationPhone  = getUserPhoneByUsername(source);
+        String description = existingPettyCash.getRequestDescription();
+        pettyCashSms.sendManager(amount,senderPhone);
+        pettyCashSms.sendStation(amount,description,stationPhone);
         return pettyCashRepo.save(existingPettyCash);
     }
+
+
+    // New method to get user phone by username
+    public String getUserPhoneByUsername(String username) {
+        Kodson user = repository.findUserByUsername(username);
+        if (user != null) {
+            return user.getPhone();
+        } else {
+            throw new RuntimeException("User not found with username: " + username);
+        }
+    }
+
 
 }

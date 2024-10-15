@@ -9,4 +9,4 @@ EMAIL_HOST: mail.kodsonplusltd.com
 EMAIL_PORT: 587
 EMAIL_ID: info@kodsonplusltd.com
 EMAIL_PASSWORD: kds23#plus
-VERIFY_EMAIL_HOST: http://localhost:${SERVER_PORT}
+VERIFY_EMAIL_HOST: http://192.168.88.27:${SERVER_PORT}

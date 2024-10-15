@@ -4,14 +4,19 @@ import com.kodsonApp.domain.MajorTask;
 import com.kodsonApp.domain.PettyCash;
 import com.kodsonApp.domain.Tasks;
 import com.kodsonApp.repository.TaskRepo;
+import com.kodsonApp.utility.PettyCashSms;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +62,27 @@ public class TaskService {
             return taskRepo.save(task);
         } else {
             throw new Exception("Task not found");
+        }
+    }
+
+    // Runs daily at midnight (00:00)
+    @Scheduled(cron = "0 0 10 * * *")
+    public void checkTasksDueInOneDay() throws IOException {
+        List<Tasks> allTasks = getAllTask();
+        LocalDate today = LocalDate.now();
+        PettyCashSms pettyCashSms = new PettyCashSms();
+        for (Tasks task : allTasks) {
+            if ("false".equalsIgnoreCase(task.getCompleted()) || task.getCompleted() == null) {
+                // Parse task due date
+                LocalDate dueDate = LocalDate.parse(task.getDueDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                if (dueDate.minusDays(1).isEqual(today)) {
+                    String phone = task.getUserPhone();
+                    // Print out notification
+                    //log.info("Your task with description '{}' is due in one day.", task.getTask());
+                    pettyCashSms.sendTask(phone,task.getTask());
+                }
+            }
         }
     }
 

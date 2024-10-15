@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,5 +49,15 @@ public class DispenseResource {
     public ResponseEntity<Void> deleteDispense(@PathVariable String id) {
         dispenseService.deleteDispense(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Fetch dispenses between a date range
+    @GetMapping("/fetchReports")
+    public ResponseEntity<List<Dispense>> fetchReports(@RequestParam("start") String start,
+                                                       @RequestParam("end") String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        List<Dispense> dispenses = dispenseService.fetchReports(startDate, endDate);
+        return ResponseEntity.ok(dispenses);
     }
 }

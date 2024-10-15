@@ -39,4 +39,5 @@ public class Dispense {
     private String bvo;
     private String omc;
     private String purpose;
+    private String company;
 }
