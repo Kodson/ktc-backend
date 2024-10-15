@@ -135,7 +135,7 @@ public class PettyCashSms {
         String requestBody = "{\n" +
                 "    \"key\": \"!ea48d_nrzi2lnz1u6emq#78tak#jlri(e5y2y763p(7o5xt#x63vnyajnlsz0ue\",\n" +
                 "    \"msisdn\": \"" + phone + "\",\n" +
-                "    \"message\": \"Request for maintenance item : "+ item + " click http://192.168.88.27:2443 if you are in the office or http://kodsonsystems.com:2443 "+"\",\n" +
+                "    \"message\": \"Request for maintenance item : "+ item + " click http://192.168.88.237:2443 if you are in the office or http://kodsonsystems.com:2443 "+"\",\n" +
                 "    \"sender_id\": \"KODSON PLUS\"\n" +
                 "}";
 

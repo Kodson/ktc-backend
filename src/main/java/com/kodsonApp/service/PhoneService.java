@@ -22,12 +22,12 @@ public class PhoneService {
         String requestBody = "{\n" +
                 "    \"key\": \"!ea48d_nrzi2lnz1u6emq#78tak#jlri(e5y2y763p(7o5xt#x63vnyajnlsz0ue\",\n" +
                 "    \"msisdn\": \"" + phone + "\",\n" +
-                "    \"message\": \"Hello " + employeeName + ", please click this link to access your pay slip: http://192.168.88.27:2443/SmsPaySlip?payrollId="+payrollId+"\",\n" +
+                "    \"message\": \"Hello " + employeeName + ", please click this link to access your pay slip: http://41.139.44.167:2443/SmsPaySlip?payrollId="+payrollId+"\",\n" +
                 "    \"sender_id\": \"KODSON PLUS\"\n" +
                 "}";
 
         RequestBody body = RequestBody.create(mediaType, requestBody);
-        System.out.println(", please click this link to access your pay slip: http://192.168.88.27:2443/SmsPaySlip?payrollId=" + payrollId );
+        System.out.println(", please click this link to access your pay slip: http://41.139.44.167:2443/SmsPaySlip?payrollId=" + payrollId );
         Request request = new Request.Builder()
                 .url("https://sms.nalosolutions.com/smsbackend/Nal_resl/send-message/")
                 .method("POST", body)
