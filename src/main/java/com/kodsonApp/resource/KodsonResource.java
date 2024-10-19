@@ -42,7 +42,7 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
 @RestController
-@RequestMapping(path = { "/","kodson/user"})
+@RequestMapping(path = { "/","api/user"})
 public class KodsonResource extends ExceptionHandling {
     private KodsonService kodsonService;
     private OtpService otpService;
