@@ -179,7 +179,7 @@ public class KodsonResource extends ExceptionHandling {
 
     @GetMapping(path = "/image/{username}/{fileName}", produces = IMAGE_JPEG_VALUE)
     public byte[] getProfileImage(@PathVariable("username") String username, @PathVariable("fileName") String fileName) throws IOException {
-        return Files.readAllBytes(Paths.get(System.getProperty("user.home") + "/kodson/user/" + username + "/" + fileName));
+        return Files.readAllBytes(Paths.get(System.getProperty("user.home") + "/api/user/" + username + "/" + fileName));
     }
 
     @GetMapping(path = "/image/profile/{username}", produces = IMAGE_JPEG_VALUE)
