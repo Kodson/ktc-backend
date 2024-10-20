@@ -12,7 +12,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = { "/","kodson/task"})
+@RequestMapping(path = { "/","api/task"})
 @RequiredArgsConstructor
 public class TasksResource {
     private final TaskService taskService;
@@ -21,7 +21,7 @@ public class TasksResource {
     public ResponseEntity<Tasks> createTask(@RequestBody Tasks tasks) {
         //System.out.println(bdc.getBdc_Name()+" "+ bdc.getDate());
         //return ResponseEntity.ok().body(bdcService.createBdc(bdc));
-        return ResponseEntity.created(URI.create("/kodson/task/taskID")).body(taskService.createTask(tasks));
+        return ResponseEntity.created(URI.create("/api/task/taskID")).body(taskService.createTask(tasks));
     }
 
     @GetMapping

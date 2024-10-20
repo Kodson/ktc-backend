@@ -40,6 +40,6 @@ mail:
         starttls:
           enable: true
 
-SERVER_PORT: 2080
-VERIFY_EMAIL_HOST: http://41.139.44.167:${SERVER_PORT}
+SERVER_PORT: 8081
+VERIFY_EMAIL_HOST: https://kodsonsystems.com:${SERVER_PORT}
 

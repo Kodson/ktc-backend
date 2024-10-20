@@ -35,7 +35,7 @@ public class EmailServiceImpl implements EmailService {
             message.setSubject(NEW_USER_ACCOUNT_VERIFICATION);
             message.setFrom("info@kodsonplusltd.com");
             message.setTo(to);
-            message.setText(getEmailMessage(name, "http://41.139.44.167:2443/ActivateAccount", token));
+            message.setText(getEmailMessage(name, "https://kodsonsystems.com:2443/ActivateAccount", token));
             //message.setText(getEmailMessage(name, "http://localhost:8081", token));
             emailSender.send(message);
         } catch (Exception exception) {
@@ -67,7 +67,7 @@ public class EmailServiceImpl implements EmailService {
             message.setSubject("Password Reset Link");
             message.setFrom("info@kodsonplusltd.com");
             message.setTo(to);
-            message.setText("http://41.139.44.167:2443/resetpassword");
+            message.setText("https://kodsonsystems.com:2443/resetpassword");
             emailSender.send(message);
 
         } catch (Exception exception) {

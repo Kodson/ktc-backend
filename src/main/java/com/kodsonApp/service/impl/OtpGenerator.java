@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class OtpGenerator {
 
-    private static final Integer EXPIRE_MIN = 5;
+    private static final Integer EXPIRE_MIN = 20;
     private LoadingCache<String, Integer> otpCache;
 
     /**

@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = { "/", "kodson/items" })
+@RequestMapping(path = { "/", "api/items" })
 @RequiredArgsConstructor
 public class ItemRequestResource {
     private final ItemRequestService itemRequestService;
