@@ -1,10 +1,10 @@
 package com.kodsonApp.constant;
 
 public class FileConstant {
-    public static final String USER_IMAGE_PATH = ":2443/api/user/image/";
+    public static final String USER_IMAGE_PATH = "/api/user/image/";
     public static final String MENU_IMAGE_PATH = "/foodMenu/image/";
     public static final String JPG_EXTENSION = "jpg";
-    public static final String USER_FOLDER = System.getProperty("user.home") + ":2443/api/user/";
+    public static final String USER_FOLDER = System.getProperty("user.home") + "/api/user/";
     public static final String MENU_FOLDER = System.getProperty("user.home") + "/FOODMENU/foodMenu";
     public static final String DIRECTORY_CREATED = "Created directory for: ";
     public static final String DEFAULT_USER_IMAGE_PATH = ":2443/api/user/image/profile/";

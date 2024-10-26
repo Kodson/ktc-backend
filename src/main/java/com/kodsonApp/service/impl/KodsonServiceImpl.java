@@ -243,10 +243,18 @@ public class KodsonServiceImpl implements KodsonService, UserDetailsService {
         }
     }
 
+//    private String setProfileImageUrl(String username) {
+//        return ServletUriComponentsBuilder.fromCurrentContextPath().path(FileConstant.USER_IMAGE_PATH + username + "/"
+//                + username + "." + "jpg").toUriString();
+//    }
+
     private String setProfileImageUrl(String username) {
-        return ServletUriComponentsBuilder.fromCurrentContextPath().path(FileConstant.USER_IMAGE_PATH + username + "/"
-                + username + "." + "jpg").toUriString();
+        return ServletUriComponentsBuilder
+                .fromHttpUrl("https://kodsonsystems.com:2443")
+                .path(FileConstant.USER_IMAGE_PATH + username + "/" + username + ".jpg")
+                .toUriString();
     }
+
 
     private Role getRoleEnumName(String role) {
         return Role.valueOf(role.toUpperCase());
