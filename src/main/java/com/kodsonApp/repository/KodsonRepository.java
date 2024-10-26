@@ -12,4 +12,6 @@ public interface KodsonRepository extends JpaRepository<Kodson, Long> {
 
     Kodson findEmailByUsername(String username);
 
+    Kodson findPhoneByUsername(String username);
+
 }

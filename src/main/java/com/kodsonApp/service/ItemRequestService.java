@@ -3,10 +3,12 @@ package com.kodsonApp.service;
 import com.kodsonApp.domain.ItemRequest;
 import com.kodsonApp.domain.PettyCash;
 import com.kodsonApp.repository.ItemRequestRepo;
+import com.kodsonApp.utility.ItemSocketHandler;
 import com.kodsonApp.utility.PettyCashSms;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -21,12 +23,16 @@ import java.util.Optional;
 public class ItemRequestService {
     private final ItemRequestRepo itemRequestRepo;
     private final PettyCashSms pettyCashSms;
+    @Autowired
+    private ItemSocketHandler itemSocketHandler;
 
     // Save a new ItemRequest
     public ItemRequest save(ItemRequest itemRequest) throws IOException {
         //log.info("Saving ItemRequest: {}", itemRequest);
-        pettyCashSms.sendGmItem(itemRequest.getItem());
-        return itemRequestRepo.save(itemRequest);
+        itemRequestRepo.save(itemRequest);
+       // pettyCashSms.sendGmItem(itemRequest.getItem());
+        itemSocketHandler.broadcastMessage("New petty item request submitted.");
+        return itemRequest;
     }
 
     // Get all ItemRequests

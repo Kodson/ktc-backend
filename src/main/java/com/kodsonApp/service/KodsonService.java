@@ -16,13 +16,13 @@ public interface KodsonService {
     Kodson findUserByUsername(String username);
 
     String findEmailByUsername(String username);
-
+    String findPhoneByUsername(String username);
     Kodson findUserByEmail(String email);
     Kodson sendLink(String email) throws EmailNotFoundException;
     Kodson findUserByPhone(String phone);
     Kodson addNewUser(String password,String phone, String username, String email, String role, boolean isNonLocked, boolean isActive, MultipartFile profileImage) throws UserNotFoundException, UsernameExistException, EmailExistException, IOException, NotAnImageFileException;
 
-    Kodson updateUser(String phone, String currentUsername, String newBranch, String newUsername, String newEmail, String role, boolean isNonLocked, boolean isActive, MultipartFile profileImage) throws UserNotFoundException, UsernameExistException, EmailExistException, IOException, NotAnImageFileException;
+    Kodson updateUser(String phone, String currentUsername, String newUsername, String newEmail, String role, boolean isNonLocked, boolean isActive, MultipartFile profileImage) throws UserNotFoundException, UsernameExistException, EmailExistException, IOException, NotAnImageFileException;
 
     void deleteUser(String username) throws IOException;
 

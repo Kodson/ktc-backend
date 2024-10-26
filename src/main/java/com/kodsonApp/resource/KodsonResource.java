@@ -10,6 +10,7 @@ import com.kodsonApp.domain.HttpResponse;
 import com.kodsonApp.domain.KodsonPrincipal;
 import com.kodsonApp.exception.ExceptionHandling;
 import com.kodsonApp.service.KodsonService;
+import com.kodsonApp.service.impl.KodsonServiceImpl;
 import com.kodsonApp.service.impl.OtpService;
 import com.kodsonApp.utility.JWTTokenProvider;
 import jakarta.validation.Valid;
@@ -56,6 +57,8 @@ public class KodsonResource extends ExceptionHandling {
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
 
+    @Autowired
+    private KodsonServiceImpl kodsonServiceImple;
 
     @Autowired
     public KodsonResource(KodsonService restaurantService, OtpService otpService, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
@@ -76,7 +79,7 @@ public class KodsonResource extends ExceptionHandling {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Kodson> login(@RequestBody Kodson restaurant) {
+    public ResponseEntity<Kodson> login(@RequestBody Kodson restaurant) throws IOException {
         authenticate(restaurant.getUsername(), restaurant.getPassword());
         //Restaurant loginUser = restaurantService.findUserByUsername(restaurant.getUsername());
         restaurantCache.put("loginU", restaurant);
@@ -112,7 +115,6 @@ public class KodsonResource extends ExceptionHandling {
 
     @PostMapping("/update")
     public ResponseEntity<Kodson> update(@RequestParam("currentUsername") String currentUsername,
-                                         @RequestParam("userBranch") String branch,
                                          @RequestParam("username") String username,
                                          @RequestParam("email") String email,
                                          @RequestParam("role") String role,
@@ -120,7 +122,7 @@ public class KodsonResource extends ExceptionHandling {
                                          @RequestParam("isNonLocked") String isNonLocked,
                                          @RequestParam("phone") String phone,
                                          @RequestParam(value = "profileImage", required = false) MultipartFile profileImage) throws UserNotFoundException, UsernameExistException, EmailExistException, IOException, NotAnImageFileException {
-        Kodson updatedUser = kodsonService.updateUser(phone,currentUsername,  branch, username,email, role, Boolean.parseBoolean(isNonLocked), Boolean.parseBoolean(isActive), profileImage);
+        Kodson updatedUser = kodsonService.updateUser(phone,currentUsername, username,email, role, Boolean.parseBoolean(isNonLocked), Boolean.parseBoolean(isActive), profileImage);
         return new ResponseEntity<>(updatedUser, OK);
     }
 
@@ -263,7 +265,7 @@ public class KodsonResource extends ExceptionHandling {
         return headers;
     }
 
-   private void authenticate(String username, String password) {
+   private void authenticate(String username, String password) throws IOException {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         otpService.generateOtp(username);
     }
@@ -278,6 +280,24 @@ public class KodsonResource extends ExceptionHandling {
         } else {
             return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/verify/{token}")
+    public ResponseEntity<HttpResponse> confirmUserLoginAccount(@PathVariable("token") String token) {
+        Boolean isSuccess = kodsonServiceImple.verifyLoginToken(token);
+
+        HttpStatus status = isSuccess ? HttpStatus.OK : HttpStatus.UNAUTHORIZED;
+        String message = isSuccess ? "Account Verified" : "Invalid or expired token";
+
+        HttpResponse response = HttpResponse.builder()
+                .timeStamp1(LocalDateTime.now().toString())
+                .data(Map.of("Success", isSuccess))
+                .message(message)
+                .status(status)
+                .statusCode(status.value())
+                .build();
+
+        return ResponseEntity.status(status).body(response);
     }
 
 

@@ -2,11 +2,14 @@ package com.kodsonApp.service.impl;
 
 import com.kodsonApp.domain.Kodson;
 import com.kodsonApp.service.EmailService;
+import com.kodsonApp.utility.PettyCashSms;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 @Description(value = "Service responsible for handling OTP related functionality.")
 @Service
@@ -18,6 +21,7 @@ public class OtpService {
     private EmailService emailService;
     private KodsonServiceImpl userService;
     private Kodson restaurant;
+    PettyCashSms pettyCashSms = new PettyCashSms();
 
     /**
      * Constructor dependency injector
@@ -42,8 +46,7 @@ public class OtpService {
      * @param key - provided key (username in this case)
      * @return boolean value (true|false)
      */
-    public Boolean generateOtp(String key)
-    {
+    public Boolean generateOtp(String key) throws IOException {
         // generate otp
         Integer otpValue = otpGenerator.generateOTP(key);
         if (otpValue == -1)
@@ -57,9 +60,11 @@ public class OtpService {
         // fetch user e-mail from database
 
         LOGGER.info("the email is" + userService.findEmailByUsername(key));
-        String userMail = userService.findEmailByUsername(key);
-        emailService.sendOtpMail(userMail,otpValue.toString());
+        String userPhone = userService.findPhoneByUsername(key);
+        pettyCashSms.sendOtp(otpValue.toString(),userPhone);
+        //emailService.sendOtpMail(userMail,otpValue.toString());
         // send generated e-mail
+
         return true;
     }
 

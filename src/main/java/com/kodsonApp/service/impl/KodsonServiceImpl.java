@@ -12,6 +12,7 @@ import com.kodsonApp.service.EmailService;
 import com.kodsonApp.service.LoginAttemptService;
 import com.kodsonApp.service.PhoneService;
 import com.kodsonApp.service.KodsonService;
+import com.kodsonApp.utility.JwtTokenUtil;
 import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -72,6 +73,9 @@ public class KodsonServiceImpl implements KodsonService, UserDetailsService {
         this.confirmationRepository = confirmationRepository;
         this.tfaService = tfaService;
     }
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
@@ -167,6 +171,12 @@ public class KodsonServiceImpl implements KodsonService, UserDetailsService {
     }
 
     @Override
+    public String findPhoneByUsername(String username) {
+        Kodson user = repository.findPhoneByUsername(username);
+        return user != null ? user.getPhone() : null;
+    }
+
+    @Override
     public Kodson findUserByEmail(String email) {
         return repository.findUserByEmail(email);
     }
@@ -188,7 +198,7 @@ public class KodsonServiceImpl implements KodsonService, UserDetailsService {
 
 
     @Override
-    public Kodson updateUser(String phone, String currentUsername, String newUserBranch, String newUsername, String newEmail, String role, boolean isNonLocked, boolean isActive, MultipartFile profileImage) throws UserNotFoundException, UsernameExistException, EmailExistException, IOException, NotAnImageFileException {
+    public Kodson updateUser(String phone, String currentUsername, String newUsername, String newEmail, String role, boolean isNonLocked, boolean isActive, MultipartFile profileImage) throws UserNotFoundException, UsernameExistException, EmailExistException, IOException, NotAnImageFileException {
         Kodson currentUser = validateNewUsernameAndEmail(currentUsername, newUsername, newEmail);
         currentUser.setUsername(newUsername);
         currentUser.setEmail(newEmail);
@@ -209,6 +219,7 @@ public class KodsonServiceImpl implements KodsonService, UserDetailsService {
     @Override
     public void deleteUser(String username) throws IOException {
         Kodson kodson = repository.findUserByUsername(username);
+        confirmationRepository.deleteByUserId(kodson.getId());
         Path userFolder = Paths.get(FileConstant.USER_FOLDER+ kodson.getUsername()).toAbsolutePath().normalize();
         FileUtils.deleteDirectory(new File(userFolder.toString()));
         repository.deleteById(kodson.getId());
@@ -338,6 +349,10 @@ public class KodsonServiceImpl implements KodsonService, UserDetailsService {
             }
             return null;
         }
+    }
+
+    public Boolean verifyLoginToken(String token) {
+        return jwtTokenUtil.isTokenValid(token);
     }
 
 }

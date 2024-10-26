@@ -5,6 +5,7 @@ import com.kodsonApp.domain.PettyCash;
 import com.kodsonApp.repository.KodsonRepository;
 import com.kodsonApp.repository.PettyCashRepo;
 import com.kodsonApp.utility.PettyCashSms;
+import com.kodsonApp.utility.PettySocketHandler;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,9 @@ public class PettyCashService {
     @Autowired
     private KodsonRepository repository;
 
+    @Autowired
+    private PettySocketHandler customHandler;
+
     PettyCashSms pettyCashSms = new PettyCashSms();
 
     public Page<PettyCash> getAllPettyCash(int page, int size) {
@@ -37,12 +41,17 @@ public class PettyCashService {
         return pettyCashRepo.findById(id).orElseThrow(() -> new RuntimeException("Contact not found"));
     }
 
+    @Transactional
     public PettyCash createPettyCash(PettyCash pettyCash) throws IOException {
-        //pettyCash.setStatus("pending");
-        double amount = pettyCash.getAmount();
-        String sender = pettyCash.getUserName();
-        pettyCashSms.sendGm(amount,sender);
-        return pettyCashRepo.save(pettyCash);
+        try {
+            pettyCashRepo.save(pettyCash);
+            pettyCashSms.sendGm(pettyCash.getAmount(), pettyCash.getUserName());
+            customHandler.broadcastMessage("New petty cash request submitted.");
+            return pettyCash;
+        } catch (Exception e) {
+            System.err.println("Error creating petty cash request: " + e.getMessage());
+            throw e;
+        }
     }
 
     public PettyCash updatePettyCash(String id, PettyCash pettyCash) {
