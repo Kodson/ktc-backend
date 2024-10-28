@@ -161,7 +161,7 @@ public class PettyCashSms {
 
     private String createGmItem(String item){
         OkHttpClient client = new OkHttpClient();
-        String phone = "0245045970";
+        String phone = "0501577846";
         MediaType mediaType = MediaType.parse("application/json");
         String requestBody = "{\n" +
                 "    \"key\": \"!ea48d_nrzi2lnz1u6emq#78tak#jlri(e5y2y763p(7o5xt#x63vnyajnlsz0ue\",\n" +
@@ -193,7 +193,7 @@ public class PettyCashSms {
 
     private String createGm(double amount, String sender){
         OkHttpClient client = new OkHttpClient();
-        String phone = "0245045970";
+        String phone = "0501577846";
         MediaType mediaType = MediaType.parse("application/json");
         String requestBody = "{\n" +
                 "    \"key\": \"!ea48d_nrzi2lnz1u6emq#78tak#jlri(e5y2y763p(7o5xt#x63vnyajnlsz0ue\",\n" +
