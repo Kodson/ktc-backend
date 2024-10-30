@@ -35,5 +35,6 @@ public class Trucks {
     private String status;
     private String bvoId;
     private String assistantId;
+    private String company;
 
 }

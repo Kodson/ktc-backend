@@ -49,12 +49,10 @@ public class DispenseService {
                     dispense.setBvo(updatedDispense.getBvo());
                     dispense.setOmc(updatedDispense.getOmc());
                     dispense.setPurpose(updatedDispense.getPurpose());
+                    dispense.setCompany(updatedDispense.getCompany());
                     return dispenseRepo.save(dispense);
                 })
-                .orElseGet(() -> {
-                    updatedDispense.setId(id);
-                    return dispenseRepo.save(updatedDispense);
-                });
+                .orElseThrow(() -> new RuntimeException("Dispense record not found for ID: " + id));
     }
 
     // Fetch reports by date range
