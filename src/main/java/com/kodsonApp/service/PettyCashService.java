@@ -1,8 +1,5 @@
 package com.kodsonApp.service;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
 import com.kodsonApp.domain.Kodson;
 import com.kodsonApp.domain.PettyCash;
 import com.kodsonApp.repository.KodsonRepository;
@@ -36,11 +33,8 @@ public class PettyCashService {
 
     PettyCashSms pettyCashSms = new PettyCashSms();
 
-    // Update the getAllPettyCash method to include sorting by date
-    public Page<PettyCash> getAllPettyCash(int page, int size, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return pettyCashRepo.findAll(pageable);
+    public Page<PettyCash> getAllPettyCash(int page, int size) {
+        return pettyCashRepo.findAll(PageRequest.of(page, size));
     }
 
     public PettyCash getPettyCash(String id) {
@@ -82,18 +76,12 @@ public class PettyCashService {
         return pettyCashRepo.findByStatus("approved");
     }
 
-    public Page<PettyCash> getApprovedPettyCashWithUser(String userName, int page, int size, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return pettyCashRepo.findByStatusAndUserName("approved", userName, pageable);
+    public List<PettyCash> getApprovedPettyCashWithUser(String userName) {
+        return pettyCashRepo.findByStatusAndUserName("approved", userName); // Update to use userName
     }
 
-
-
-    public Page<PettyCash> getApprovedPettyCashWithStation(String station, int page, int size, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return pettyCashRepo.findByStatusAndStation("approved", station, pageable);
+    public List<PettyCash> getApprovedPettyCashWithStation(String station) {
+        return pettyCashRepo.findByStatusAndStation("approved", station); // Update to use userName
     }
 
 
@@ -101,64 +89,39 @@ public class PettyCashService {
         return pettyCashRepo.findByStatus("pending");
     }
 
-
-
-    public Page<PettyCash> getPendingPettyCashWithUser(String userName, int page, int size, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return pettyCashRepo.findByStatusAndUserName("pending", userName, pageable);
+    public List<PettyCash> getPendingPettyCashWithUser(String userName) {
+        return pettyCashRepo.findByStatusAndUserName("pending", userName); // Update to use userName
     }
 
-
-
-    public Page<PettyCash> getPendingPettyCashWithStation(String station, int page, int size, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return pettyCashRepo.findByStatusAndStation("pending", station, pageable);
+    public List<PettyCash> getPendingPettyCashWithStation(String station) {
+        return pettyCashRepo.findByStatusAndStation("pending", station); // Update to use userName
     }
 
     public List<PettyCash> getSuspendedPettyCash() {
         return pettyCashRepo.findByStatus("suspended");
     }
-
-
-    public Page<PettyCash> getSuspendPettyCashWithUser(String userName, int page, int size, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return pettyCashRepo.findByStatusAndUserName("suspended", userName, pageable);
+    public List<PettyCash> getSuspendPettyCashWithUser(String userName) {
+        return pettyCashRepo.findByStatusAndUserName("suspended", userName); // Update to use userName
     }
 
-
-    public Page<PettyCash> getSuspendPettyCashWithStation(String station, int page, int size, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return pettyCashRepo.findByStatusAndStation("suspended", station, pageable);
+    public List<PettyCash> getSuspendPettyCashWithStation(String station) {
+        return pettyCashRepo.findByStatusAndStation("suspended", station); // Update to use userName
     }
 
     public List<PettyCash> getDeclinedPettyCash() {
         return pettyCashRepo.findByStatus("declined");
     }
 
-
-    public Page<PettyCash> getDeclinedPettyCashWithUser(String userName, int page, int size, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return pettyCashRepo.findByStatusAndUserName("declined", userName, pageable);
+    public List<PettyCash> getDeclinedPettyCashWithUser(String userName) {
+        return pettyCashRepo.findByStatusAndUserName("declined", userName); // Update to use userName
     }
 
-
-
-    public Page<PettyCash> getDeclinedPettyCashWithStation(String station, int page, int size, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return pettyCashRepo.findByStatusAndStation("declined", station, pageable);
+    public List<PettyCash> getDeclinedPettyCashWithStation(String station) {
+        return pettyCashRepo.findByStatusAndStation("declined", station); // Update to use userName
     }
 
-    public List<PettyCash> getApprovedPettyCashBetweenDates(LocalDate startDate, LocalDate endDate, String station
-            , int page, int size, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return pettyCashRepo.findByStatusAndDateBetweenAndStation("approved", startDate, endDate, station, pageable);
+    public List<PettyCash> getApprovedPettyCashBetweenDates(LocalDate startDate, LocalDate endDate, String station) {
+        return pettyCashRepo.findByStatusAndDateBetweenAndStation("approved", startDate, endDate, station);
     }
 
     public List<PettyCash> getRequestsByStatus(String status) {
@@ -190,10 +153,5 @@ public class PettyCashService {
         }
     }
 
-    public Page<PettyCash> searchPettyCash(String costCenter,String receiver, String status, String description, String station, String userName, int page, int size, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sorting by 'date' field
-        Pageable pageable = PageRequest.of(page, size, sort);
-        return pettyCashRepo.findByCostCenterContainingOrReceiverContainingOrStatusContainingOrRequestDescriptionContainingOrStationContainingOrUserNameContaining(costCenter,receiver,status, description, station, userName, pageable);
-    }
 
 }
