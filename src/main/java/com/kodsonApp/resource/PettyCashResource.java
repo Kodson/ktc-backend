@@ -4,6 +4,7 @@ import com.kodsonApp.domain.PettyCash;
 import com.kodsonApp.service.PettyCashService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +25,13 @@ public class PettyCashResource {
     }
 
     @GetMapping
-    public ResponseEntity<Page<PettyCash>> getAllPetty(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                       @RequestParam(value = "size", defaultValue = "20") int size) {
-        return ResponseEntity.ok().body(pettyCashService.getAllPettyCash(page, size));
+    public ResponseEntity<Page<PettyCash>> getAllPetty(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
+
+        Page<PettyCash> pettyCashPage = pettyCashService.getAllPettyCash(page, size, sortDirection);
+        return ResponseEntity.ok().body(pettyCashPage);
     }
 
     @GetMapping("/{id}")
@@ -51,15 +56,26 @@ public class PettyCashResource {
     }
 
     @GetMapping("/approvedWithUser")
-    public ResponseEntity<List<PettyCash>> getApprovedPettyWithUser(@RequestParam String userName) {
-        List<PettyCash> pettyCashList = pettyCashService.getApprovedPettyCashWithUser(userName);
-        return ResponseEntity.ok().body(pettyCashList);
+    public ResponseEntity<Page<PettyCash>> getApprovedPettyWithUser(
+            @RequestParam String userName,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
+
+        Page<PettyCash> pettyCashPage = pettyCashService.getApprovedPettyCashWithUser(userName, page, size, sortDirection);
+        return ResponseEntity.ok().body(pettyCashPage);
     }
 
+
     @GetMapping("/approvedWithStation")
-    public ResponseEntity<List<PettyCash>> getApprovedPettyWithStation(@RequestParam String station) {
-        List<PettyCash> pettyCashList = pettyCashService.getApprovedPettyCashWithStation(station);
-        return ResponseEntity.ok().body(pettyCashList);
+    public ResponseEntity<Page<PettyCash>> getApprovedPettyWithStation(
+            @RequestParam String station,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
+
+        Page<PettyCash> pettyCashPage = pettyCashService.getApprovedPettyCashWithStation(station, page, size, sortDirection);
+        return ResponseEntity.ok().body(pettyCashPage);
     }
 
 
@@ -68,16 +84,27 @@ public class PettyCashResource {
         return ResponseEntity.ok().body(pettyCashService.getPendingPettyCash());
     }
 
+
     @GetMapping("/pendingWithUser")
-    public ResponseEntity<List<PettyCash>> getPendingPettyWithUser(@RequestParam String userName) {
-        List<PettyCash> pettyCashList = pettyCashService.getPendingPettyCashWithUser(userName);
-        return ResponseEntity.ok().body(pettyCashList);
+    public ResponseEntity<Page<PettyCash>> getPendingPettyWithUser(
+            @RequestParam String userName,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
+
+        Page<PettyCash> pettyCashPage = pettyCashService.getPendingPettyCashWithUser(userName, page, size, sortDirection);
+        return ResponseEntity.ok().body(pettyCashPage);
     }
 
     @GetMapping("/pendingWithStation")
-    public ResponseEntity<List<PettyCash>> getPendingPettyWithStation(@RequestParam String station) {
-        List<PettyCash> pettyCashList = pettyCashService.getPendingPettyCashWithStation(station);
-        return ResponseEntity.ok().body(pettyCashList);
+    public ResponseEntity<Page<PettyCash>> getPendingPettyWithStation(
+            @RequestParam String station,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
+
+        Page<PettyCash> pettyCashPage = pettyCashService.getPendingPettyCashWithStation(station, page, size, sortDirection);
+        return ResponseEntity.ok().body(pettyCashPage);
     }
 
     @GetMapping("/suspended")
@@ -85,16 +112,28 @@ public class PettyCashResource {
         return ResponseEntity.ok().body(pettyCashService.getSuspendedPettyCash());
     }
 
+
+
     @GetMapping("/suspendedWithUser")
-    public ResponseEntity<List<PettyCash>> getSuspendedPettyWithUser(@RequestParam String userName) {
-        List<PettyCash> pettyCashList = pettyCashService.getSuspendPettyCashWithUser(userName);
-        return ResponseEntity.ok().body(pettyCashList);
+    public ResponseEntity<Page<PettyCash>> getSuspendedPettyWithUser(
+            @RequestParam String userName,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
+
+        Page<PettyCash> pettyCashPage = pettyCashService.getSuspendPettyCashWithUser(userName, page, size, sortDirection);
+        return ResponseEntity.ok().body(pettyCashPage);
     }
 
     @GetMapping("/suspendedWithStation")
-    public ResponseEntity<List<PettyCash>> getSuspendedPettyWithStation(@RequestParam String station) {
-        List<PettyCash> pettyCashList = pettyCashService.getSuspendPettyCashWithStation(station);
-        return ResponseEntity.ok().body(pettyCashList);
+    public ResponseEntity<Page<PettyCash>> getSuspendedPettyWithStation(
+            @RequestParam String station,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
+
+        Page<PettyCash> pettyCashPage = pettyCashService.getSuspendPettyCashWithStation(station, page, size, sortDirection);
+        return ResponseEntity.ok().body(pettyCashPage);
     }
 
     @GetMapping("/declined")
@@ -103,22 +142,35 @@ public class PettyCashResource {
     }
 
     @GetMapping("/declinedWithUser")
-    public ResponseEntity<List<PettyCash>> getDeclinedPettyWithUser(@RequestParam String userName) {
-        List<PettyCash> pettyCashList = pettyCashService.getDeclinedPettyCashWithUser(userName);
-        return ResponseEntity.ok().body(pettyCashList);
+    public ResponseEntity<Page<PettyCash>> getDeclinedPettyWithUser(
+            @RequestParam String userName,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
+
+        Page<PettyCash> pettyCashPage = pettyCashService.getDeclinedPettyCashWithUser(userName, page, size, sortDirection);
+        return ResponseEntity.ok().body(pettyCashPage);
     }
 
     @GetMapping("/declinedWithStation")
-    public ResponseEntity<List<PettyCash>> getDeclinedPettyWithStation(@RequestParam String station) {
-        List<PettyCash> pettyCashList = pettyCashService.getDeclinedPettyCashWithStation(station);
-        return ResponseEntity.ok().body(pettyCashList);
+    public ResponseEntity<Page<PettyCash>> getDeclinedPettyWithStation(
+            @RequestParam String station,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
+
+        Page<PettyCash> pettyCashPage = pettyCashService.getDeclinedPettyCashWithStation(station, page, size, sortDirection);
+        return ResponseEntity.ok().body(pettyCashPage);
     }
 
     @GetMapping("/approvedBetween")
     public ResponseEntity<List<PettyCash>> getApprovedPettyBetween(@RequestParam LocalDate startDate,
                                                                    @RequestParam LocalDate endDate,
-                                                                   @RequestParam String station) {
-        return ResponseEntity.ok().body(pettyCashService.getApprovedPettyCashBetweenDates(startDate, endDate, station));
+                                                                   @RequestParam String station,
+                                                                   @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                   @RequestParam(value = "size", defaultValue = "20") int size,
+                                                                   @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
+        return ResponseEntity.ok().body(pettyCashService.getApprovedPettyCashBetweenDates(startDate, endDate, station, page, size, sortDirection));
     }
 
     @GetMapping("/status/{status}")
@@ -130,6 +182,22 @@ public class PettyCashResource {
     @PutMapping("/status/{id}")
     public ResponseEntity<PettyCash> updateStatus(@PathVariable(value = "id") String id, @RequestBody PettyCash pettyCash) throws IOException {
         return ResponseEntity.ok().body(pettyCashService.updateStatus(id, pettyCash));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<PettyCash>> searchPettyCash(
+            @RequestParam(value = "costCenter", required = false) String costCenter,
+            @RequestParam(value = "receiver", required = false) String receiver,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "station", required = false) String station,
+            @RequestParam(value = "userName", required = false) String userName,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
+
+        Page<PettyCash> pettyCashPage = pettyCashService.searchPettyCash(costCenter,receiver,status, description, station, userName, page, size, sortDirection);
+        return ResponseEntity.ok().body(pettyCashPage);
     }
 
 
