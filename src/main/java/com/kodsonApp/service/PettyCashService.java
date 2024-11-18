@@ -108,9 +108,7 @@ public class PettyCashService {
         Pageable pageable = PageRequest.of(page, size, sort);
         return pettyCashRepo.findByStatusAndUserName("pending", userName, pageable);
     }
-
-
-
+    
     public Page<PettyCash> getPendingPettyCashWithStation(String station, int page, int size, String sortDirection) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
         Pageable pageable = PageRequest.of(page, size, sort);
