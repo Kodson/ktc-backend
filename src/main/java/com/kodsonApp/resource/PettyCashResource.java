@@ -168,7 +168,7 @@ public class PettyCashResource {
                                                                    @RequestParam LocalDate endDate,
                                                                    @RequestParam String station,
                                                                    @RequestParam(value = "page", defaultValue = "0") int page,
-                                                                   @RequestParam(value = "size", defaultValue = "20") int size,
+                                                                   @RequestParam(value = "size", defaultValue = "100") int size,
                                                                    @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
         return ResponseEntity.ok().body(pettyCashService.getApprovedPettyCashBetweenDates(startDate, endDate, station, page, size, sortDirection));
     }
