@@ -16,7 +16,8 @@ import org.springframework.data.domain.Pageable;
 public interface PettyCashRepo extends JpaRepository<PettyCash, String> {
         Optional<PettyCash> findById(String id);
         List<PettyCash> findByStatus(String status);
-        List<PettyCash> findByStatusAndDateBetweenAndStation(String status, LocalDate startDate, LocalDate endDate, String station,Pageable pageable);
+        //List<PettyCash> findByStatusAndDateBetweenAndStation(String status, LocalDate startDate, LocalDate endDate, String station,Pageable pageable);
+        Page<PettyCash> findByStatusAndDateBetweenAndStation(String status, LocalDate startDate, LocalDate endDate, String station, Pageable pageable);
 
         Page<PettyCash> findByStatusAndUserName(String status, String userName, Pageable pageable);
 

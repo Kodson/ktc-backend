@@ -152,12 +152,19 @@ public class PettyCashService {
         return pettyCashRepo.findByStatusAndStation("declined", station, pageable);
     }
 
-    public List<PettyCash> getApprovedPettyCashBetweenDates(LocalDate startDate, LocalDate endDate, String station
+   /* public List<PettyCash> getApprovedPettyCashBetweenDates(LocalDate startDate, LocalDate endDate, String station
             , int page, int size, String sortDirection) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
         Pageable pageable = PageRequest.of(page, size, sort);
         return pettyCashRepo.findByStatusAndDateBetweenAndStation("approved", startDate, endDate, station, pageable);
+    }*/
+
+    public Page<PettyCash> getApprovedPettyCashBetweenDates(LocalDate startDate, LocalDate endDate, String station, int page, int size, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return pettyCashRepo.findByStatusAndDateBetweenAndStation("approved", startDate, endDate, station, pageable);
     }
+
 
     public List<PettyCash> getRequestsByStatus(String status) {
         return pettyCashRepo.findByStatus(status);

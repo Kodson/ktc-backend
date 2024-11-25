@@ -22,7 +22,7 @@ public class PhoneService {
         String requestBody = "{\n" +
                 "    \"key\": \"!ea48d_nrzi2lnz1u6emq#78tak#jlri(e5y2y763p(7o5xt#x63vnyajnlsz0ue\",\n" +
                 "    \"msisdn\": \"" + phone + "\",\n" +
-                "    \"message\": \"Hello " + employeeName + ",using your mobile data please click this link to access your pay slip: https://kodsonsystems.com:2443/SmsPaySlip?payrollId="+payrollId+"\",\n" +
+                "    \"message\": \"Hello " + employeeName + ",using your mobile data please click this link to access your pay slip: https://kodsonsystems.com:2080/SmsPaySlip?payrollId="+payrollId+"\",\n" +
                 "    \"sender_id\": \"KODSON PLUS\"\n" +
                 "}";
 

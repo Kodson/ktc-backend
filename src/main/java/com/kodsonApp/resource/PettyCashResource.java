@@ -163,7 +163,7 @@ public class PettyCashResource {
         return ResponseEntity.ok().body(pettyCashPage);
     }
 
-    @GetMapping("/approvedBetween")
+   /* @GetMapping("/approvedBetween")
     public ResponseEntity<List<PettyCash>> getApprovedPettyBetween(@RequestParam LocalDate startDate,
                                                                    @RequestParam LocalDate endDate,
                                                                    @RequestParam String station,
@@ -171,7 +171,19 @@ public class PettyCashResource {
                                                                    @RequestParam(value = "size", defaultValue = "100") int size,
                                                                    @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
         return ResponseEntity.ok().body(pettyCashService.getApprovedPettyCashBetweenDates(startDate, endDate, station, page, size, sortDirection));
+    }*/
+
+    @GetMapping("/approvedBetween")
+    public ResponseEntity<Page<PettyCash>> getApprovedPettyBetween(
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate,
+            @RequestParam String station,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
+        return ResponseEntity.ok(pettyCashService.getApprovedPettyCashBetweenDates(startDate, endDate, station, page, size, sortDirection));
     }
+
 
     @GetMapping("/status/{status}")
     public ResponseEntity<List<PettyCash>> getRequestsByStatus(@PathVariable String status) {
