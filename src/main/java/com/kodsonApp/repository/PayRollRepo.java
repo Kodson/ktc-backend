@@ -24,6 +24,12 @@ public interface PayRollRepo extends JpaRepository<PayRoll, String> {
     @Query("SELECT p FROM PayRoll p WHERE p.employeeId = ?1")
     List<PayRoll> findByEmployeeId(String employeeId);
 
+    /*
     @Query("SELECT p FROM PayRoll p WHERE p.employeeId = ?1 ORDER BY p.payrollDate DESC")
-    Optional<PayRoll> findLatestPayrollByEmployeeId(String employeeId);
+    Optional<PayRoll> findLatestPayrollByEmployeeId(String employeeId);*/
+    @Query("SELECT p FROM PayRoll p WHERE p.employeeId = ?1 ORDER BY p.payrollDate DESC")
+    List<PayRoll> findPayrollsByEmployeeId(String employeeId);
+
+
+
 }

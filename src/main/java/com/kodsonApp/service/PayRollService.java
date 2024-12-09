@@ -54,10 +54,17 @@ public class PayRollService {
         return payRollRepo.findByEmployeeId(employeeId);
     }
 
-
+/*
     public Optional<PayRoll> getLatestPayrollByEmployeeId(String employeeId) {
         return payRollRepo.findLatestPayrollByEmployeeId(employeeId);
+    }*/
+
+    public Optional<PayRoll> getLatestPayrollByEmployeeId(String employeeId) {
+        List<PayRoll> payrolls = payRollRepo.findPayrollsByEmployeeId(employeeId);
+        return payrolls.isEmpty() ? Optional.empty() : Optional.of(payrolls.get(0));
     }
+
+
 
     public void sendPayslip(String employeeName, String payrollId, String phone) throws IOException, IOException {
         phoneService.sendMessage(employeeName, payrollId, phone);
