@@ -5,6 +5,8 @@ import com.kodsonApp.domain.Variables;
 import com.kodsonApp.repository.TripsRepo;
 import com.kodsonApp.repository.VariablesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,8 +27,8 @@ public class TripService {
         return tripsRepo.save(trip);
     }
 
-    public List<Trips> getAllTrips() {
-        return tripsRepo.findAll();
+    public Page<Trips> getAllTrips(Pageable pageable) {
+        return tripsRepo.findAll(pageable);
     }
 
     public Optional<Trips> getTripById(String id) {
@@ -73,8 +75,8 @@ public class TripService {
         tripsRepo.deleteById(id);
     }
 
-    public List<Trips> getTripsByDateRange(LocalDate startDate, LocalDate endDate) {
-        return tripsRepo.findByDateBetween(startDate, endDate);
+    public Page<Trips> getTripsByDateRange(LocalDate startDate, LocalDate endDate,Pageable pageable) {
+        return tripsRepo.findByDateBetween(startDate, endDate, pageable);
     }
 
     public List<Trips> getFilteredByWaybill() {
@@ -91,5 +93,10 @@ public class TripService {
         return allTrips.stream()
                 .filter(trip -> !variableWayBillNums.contains(trip.getWayBillNum()))
                 .collect(Collectors.toList());
+    }
+
+    public Page<Trips> searchTrips(String brv, String wayBillNum, String bvo, Pageable pageable) {
+        return tripsRepo.findByBrvContainingOrWayBillNumContainingOrBvoContaining(
+                brv, wayBillNum, bvo, pageable);
     }
 }
