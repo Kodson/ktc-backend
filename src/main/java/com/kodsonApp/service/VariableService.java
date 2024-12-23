@@ -7,7 +7,9 @@ import com.kodsonApp.domain.Variables;
 import com.kodsonApp.repository.VariablesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,7 +27,9 @@ public class VariableService {
     }
 */
 // Pagination for findAll
-public Page<Variables> findAll(Pageable pageable) {
+public Page<Variables> findAll(int page, int size, String sortDirection) {
+    Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
+    Pageable pageable = PageRequest.of(page, size, sort);
     return variablesRepo.findByStatus("Prepared", pageable);
 }
 

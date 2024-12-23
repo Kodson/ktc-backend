@@ -35,10 +35,8 @@ public ResponseEntity<Page<Variables>> getAllVariables(
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "asc") String sortDirection) {
 
-    Pageable pageable = PageRequest.of(page, size, sortDirection.equals("desc") ?
-            org.springframework.data.domain.Sort.by("date").descending() :
-            org.springframework.data.domain.Sort.by("date").ascending());
-    Page<Variables> variablesPage = variableService.findAll(pageable);
+
+    Page<Variables> variablesPage = variableService.findAll(page,size,sortDirection);
     return ResponseEntity.ok(variablesPage);
 }
     @GetMapping("/{id}")

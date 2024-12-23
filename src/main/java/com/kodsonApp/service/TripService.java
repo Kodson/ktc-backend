@@ -5,8 +5,7 @@ import com.kodsonApp.domain.Variables;
 import com.kodsonApp.repository.TripsRepo;
 import com.kodsonApp.repository.VariablesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,7 +26,9 @@ public class TripService {
         return tripsRepo.save(trip);
     }
 
-    public Page<Trips> getAllTrips(Pageable pageable) {
+    public Page<Trips> getAllTrips(int page, int size, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
+        Pageable pageable = PageRequest.of(page, size, sort);
         return tripsRepo.findAll(pageable);
     }
 
@@ -79,7 +80,7 @@ public class TripService {
         return tripsRepo.findByDateBetween(startDate, endDate, pageable);
     }
 
-    public List<Trips> getFilteredByWaybill() {
+   /* public List<Trips> getFilteredByWaybill() {
         // Fetch all trips
         List<Trips> allTrips = tripsRepo.findAll();
 
@@ -93,7 +94,32 @@ public class TripService {
         return allTrips.stream()
                 .filter(trip -> !variableWayBillNums.contains(trip.getWayBillNum()))
                 .collect(Collectors.toList());
+    }*/
+
+    public Page<Trips> getFilteredByWaybill(int page, int size, String sortDirection) {
+        // Fetch all wayBillNums from Variables
+        List<String> variableWayBillNums = variablesRepo.findAll()
+                .stream()
+                .map(Variables::getWayBillNum)
+                .collect(Collectors.toList());
+
+        // Create Pageable for pagination and sorting
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date");
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        // Fetch paginated trips
+        Page<Trips> paginatedTrips = tripsRepo.findAll(pageable);
+
+        // Filter trips to exclude those with matching wayBillNums
+        List<Trips> filteredTrips = paginatedTrips.getContent()
+                .stream()
+                .filter(trip -> !variableWayBillNums.contains(trip.getWayBillNum()))
+                .collect(Collectors.toList());
+
+        // Return a new Page object with filtered data
+        return new PageImpl<>(filteredTrips, pageable, paginatedTrips.getTotalElements());
     }
+
 
     public Page<Trips> searchTrips(String brv, String wayBillNum, String bvo, Pageable pageable) {
         return tripsRepo.findByBrvContainingOrWayBillNumContainingOrBvoContaining(

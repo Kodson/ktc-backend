@@ -62,13 +62,10 @@ public class TripsResource {
     @GetMapping("/getAllTrips")
     public ResponseEntity<Page<Trips>> getAllTrips(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "20") int size,
             @RequestParam(defaultValue = "desc") String sortDirection) {
 
-        Pageable pageable = PageRequest.of(page, size, sortDirection.equals("desc") ?
-                org.springframework.data.domain.Sort.by("date").descending() :
-                org.springframework.data.domain.Sort.by("date").ascending());
-        Page<Trips> variablesPage = tripService.getAllTrips(pageable);
+        Page<Trips> variablesPage = tripService.getAllTrips(page,size,sortDirection);
         return ResponseEntity.ok(variablesPage);
     }
 /*
@@ -94,11 +91,21 @@ public class TripsResource {
         Page<Trips> reportsPage = tripService.getTripsByDateRange(startDate, endDate, pageable);
         return ResponseEntity.ok(reportsPage);
     }
-
+/*
     @GetMapping("/getFilterByWaybill")
     public ResponseEntity<List<Trips>> getFilterByWaybill() {
         List<Trips> filteredTrips = tripService.getFilteredByWaybill();
         return ResponseEntity.ok(filteredTrips);
+    }
+*/
+    @GetMapping("/getFilterByWaybill")
+    public ResponseEntity<Page<Trips>> getFilterByWaybill(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam(defaultValue = "desc") String sortDirection) {
+
+        Page<Trips> variablesPage = tripService.getFilteredByWaybill(page,size,sortDirection);
+        return ResponseEntity.ok(variablesPage);
     }
 
     @GetMapping("/searchTrips")
