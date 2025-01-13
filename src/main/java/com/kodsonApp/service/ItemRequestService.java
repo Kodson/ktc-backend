@@ -9,6 +9,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -75,11 +79,11 @@ public class ItemRequestService {
     }
 
     // Find ItemRequests by status and date range
-    public List<ItemRequest> findByStatusAndDateBetween(String status, LocalDate startDate, LocalDate endDate) {
+  /*  public List<ItemRequest> findByStatusAndDateBetween(String status, LocalDate startDate, LocalDate endDate) {
         //log.info("Fetching ItemRequests with status: {} between {} and {}", status, startDate, endDate);
         return itemRequestRepo.findByStatusAndDateBetween(status, startDate, endDate);
     }
-
+*/
 
     // New: Find ItemRequests by status
     public List<ItemRequest> findByStatus(String status) {
@@ -96,5 +100,11 @@ public class ItemRequestService {
 
     public ItemRequest getItems(String id) {
         return itemRequestRepo.findById(id).orElseThrow(() -> new RuntimeException("Contact not found"));
+    }
+
+    public Page<ItemRequest> getApprovedPettyCashBetweenDates(LocalDate startDate, LocalDate endDate, int page, int size, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return itemRequestRepo.findByStatusAndDateBetween("approved", startDate, endDate, pageable);
     }
 }

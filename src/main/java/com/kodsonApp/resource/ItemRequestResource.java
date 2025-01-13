@@ -4,6 +4,8 @@ import com.kodsonApp.domain.ItemRequest;
 import com.kodsonApp.domain.PettyCash;
 import com.kodsonApp.service.ItemRequestService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,14 +61,14 @@ public class ItemRequestResource {
     }
 
     // Find ItemRequests by status and date range
-    @GetMapping("/status")
+   /* @GetMapping("/status")
     public ResponseEntity<List<ItemRequest>> findByStatusAndDateBetween(
             @RequestParam String status,
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate) {
         List<ItemRequest> itemRequests = itemRequestService.findByStatusAndDateBetween(status, startDate, endDate);
         return new ResponseEntity<>(itemRequests, HttpStatus.OK);
-    }
+    }*/
 
     // Find ItemRequests by status
     @GetMapping("/status/{status}")
@@ -103,4 +105,16 @@ public class ItemRequestResource {
     public ResponseEntity<ItemRequest> updateStatus(@PathVariable(value = "id") String id, @RequestBody ItemRequest pettyCash) throws IOException {
         return ResponseEntity.ok().body(itemRequestService.updateStatus(id, pettyCash));
     }
+
+    @GetMapping("/approvedBetween")
+    public ResponseEntity<Page<ItemRequest>> getApprovedPettyBetween(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "sortDirection", defaultValue = "asc") String sortDirection) {
+        return ResponseEntity.ok(itemRequestService.getApprovedPettyCashBetweenDates(
+                startDate, endDate, page, size, sortDirection));
+    }
+
 }
