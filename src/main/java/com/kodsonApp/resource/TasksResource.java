@@ -49,4 +49,15 @@ public class TasksResource {
             return ResponseEntity.status(500).body(null); // Error handling
         }
     }
+
+    // Update tasks
+    @PutMapping("/updateTask/{id}")
+    public ResponseEntity<Tasks> updateTasks(@PathVariable String id, @RequestBody Tasks updatedTask) {
+        try {
+            Tasks task = taskService.updateTasks(id, updatedTask);
+            return ResponseEntity.ok(task);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null); // Error handling
+        }
+    }
 }

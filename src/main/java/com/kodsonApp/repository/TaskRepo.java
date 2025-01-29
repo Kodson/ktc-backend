@@ -1,6 +1,7 @@
 package com.kodsonApp.repository;
 
 import com.kodsonApp.domain.Tasks;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,5 @@ public interface TaskRepo extends JpaRepository<Tasks, String> {
     Optional<Tasks> findById(String id);
 
     List<Tasks> findByUserName(String userName);
+    List<Tasks> findAll(Sort sort);
 }
