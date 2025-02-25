@@ -54,4 +54,12 @@ public class MajorTaskService {
                 .collect(Collectors.toList());
     }
 
+    public MajorTask updateMajorTask(String id, MajorTask updatedTask) {
+        MajorTask existingTask = getMajorTask(id);
+        existingTask.setTaskName(updatedTask.getTaskName());
+        existingTask.setDate(updatedTask.getDate());
+        return majorTaskRepo.save(existingTask);
+    }
+
+
 }

@@ -62,4 +62,10 @@ public class MajorTastResource {
         return ResponseEntity.ok().body(tasks);
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<MajorTask> updateMajorTask(@PathVariable String id, @RequestBody MajorTask updatedTask) {
+        return ResponseEntity.ok().body(majorTaskService.updateMajorTask(id, updatedTask));
+    }
+
+
 }

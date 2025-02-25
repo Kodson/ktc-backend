@@ -19,8 +19,6 @@ public class TasksResource {
 
     @PostMapping
     public ResponseEntity<Tasks> createTask(@RequestBody Tasks tasks) {
-        //System.out.println(bdc.getBdc_Name()+" "+ bdc.getDate());
-        //return ResponseEntity.ok().body(bdcService.createBdc(bdc));
         return ResponseEntity.created(URI.create("/api/task/taskID")).body(taskService.createTask(tasks));
     }
 
@@ -60,4 +58,15 @@ public class TasksResource {
             return ResponseEntity.status(500).body(null); // Error handling
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable String id) {
+        try {
+            taskService.deleteTask(id);
+            return ResponseEntity.noContent().build(); // 204 No Content for successful deletion
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build(); // 404 if the task was not found
+        }
+    }
+
 }

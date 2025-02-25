@@ -43,9 +43,6 @@ public class TaskService {
         return taskRepo.save(tasks);
     }
 
-    public void deletePettyCash(PettyCash pettyCash) {
-        // Assignment
-    }
 
     // New method to get tasks by user name
     public List<Tasks> getTasksByUserName(String userName) {
@@ -89,12 +86,21 @@ public class TaskService {
 
                 if (dueDate.minusDays(1).isEqual(today)) {
                     String phone = task.getUserPhone();
-                    // Print out notification
-                    //log.info("Your task with description '{}' is due in one day.", task.getTask());
+
                     pettyCashSms.sendTask(phone,task.getTask());
                 }
             }
         }
     }
+
+    public void deleteTask(String id) {
+        Optional<Tasks> taskOptional = taskRepo.findById(id);
+        if (taskOptional.isPresent()) {
+            taskRepo.deleteById(id);
+        } else {
+            throw new RuntimeException("Task not found");
+        }
+    }
+
 
 }
