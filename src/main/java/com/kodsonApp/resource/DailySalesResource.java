@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = { "/","mobik/dailysales"})
+@RequestMapping(path = { "/","api/dailysales"})
 @RequiredArgsConstructor
 public class DailySalesResource {
     private final DailySalesService dailySalesService;
@@ -20,7 +20,7 @@ public class DailySalesResource {
     public ResponseEntity<DailySales> createContact(@RequestBody DailySales bdc) {
         //System.out.println(bdc.getBdc_Name()+" "+ bdc.getDate());
         //return ResponseEntity.ok().body(bdcService.createBdc(bdc));
-        return ResponseEntity.created(URI.create("/mobik/dailysales/dailysalesID")).body(dailySalesService.createDailySales(bdc));
+        return ResponseEntity.created(URI.create("/api/dailysales/dailysalesID")).body(dailySalesService.createDailySales(bdc));
     }
 
     @GetMapping

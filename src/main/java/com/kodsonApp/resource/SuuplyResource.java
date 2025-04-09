@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = { "/","mobik/supply"})
+@RequestMapping(path = { "/","api/supply"})
 @RequiredArgsConstructor
 public class SuuplyResource {
     private final SupplyService supplyService;
@@ -20,7 +20,7 @@ public class SuuplyResource {
     public ResponseEntity<Supply> createSupply(@RequestBody Supply supply) {
         //System.out.println(bdc.getBdc_Name()+" "+ bdc.getDate());
         //return ResponseEntity.ok().body(bdcService.createBdc(bdc));
-        return ResponseEntity.created(URI.create("/mobik/supply/supplyID")).body(supplyService.createSupply(supply));
+        return ResponseEntity.created(URI.create("/api/supply/supplyID")).body(supplyService.createSupply(supply));
     }
 
     @GetMapping
