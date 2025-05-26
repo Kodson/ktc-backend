@@ -43,5 +43,6 @@ public class Trips {
     private String shortage;
     private double quantityRemaining;
     private String tripStatus;
+    private String employeeId;
 
 }

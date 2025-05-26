@@ -32,6 +32,7 @@ public class LoanService {
         loan.setDate(loanDetails.getDate());
         loan.setDescription(loanDetails.getDescription());
         loan.setAmount(loanDetails.getAmount());
+        loan.setDeduction(loanDetails.getDeduction());
         return loanRepo.save(loan);
     }
 

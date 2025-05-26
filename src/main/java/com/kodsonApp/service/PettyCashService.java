@@ -179,8 +179,11 @@ public class PettyCashService {
         String source = existingPettyCash.getStation();
         String stationPhone  = getUserPhoneByUsername(source);
         String description = existingPettyCash.getRequestDescription();
-        pettyCashSms.sendManager(amount,senderPhone);
-        pettyCashSms.sendStation(amount,description,stationPhone);
+        String status = existingPettyCash.getStatus();
+        pettyCashSms.sendManager(amount,senderPhone, status, description);
+        if(status.contains("approved")) {
+            pettyCashSms.sendStation(amount, description, stationPhone);
+        }
         return pettyCashRepo.save(existingPettyCash);
     }
 

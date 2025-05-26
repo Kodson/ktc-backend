@@ -35,4 +35,5 @@ public class Loans {
     private String description;
     private double amount;
     private String employeeId;
+    private double deduction;
 }

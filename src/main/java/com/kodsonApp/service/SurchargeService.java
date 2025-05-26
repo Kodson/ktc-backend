@@ -33,6 +33,7 @@ public class SurchargeService {
         surcharge.setDate(surchargeDetails.getDate());
         surcharge.setDescription(surchargeDetails.getDescription());
         surcharge.setAmount(surchargeDetails.getAmount());
+        surcharge.setDeduction(surchargeDetails.getDeduction());
         return surchargeRepo.save(surcharge);
     }
 

@@ -58,4 +58,5 @@ public class Variables {
     private Double cashPaid;
     private Double actualLoss;
     private String status;
+    private String employeeId;
 }

@@ -23,8 +23,8 @@ public class PettyCashSms {
         createGmItem(item);
     }
 
-    public void sendManager(double amount, String phone) throws IOException {
-        createManager(amount, phone);
+    public void sendManager(double amount, String phone, String status, String description) throws IOException {
+        createManager(amount, phone, status, description);
     }
 
     public void sendManagerItem(String item, String phone) throws IOException {
@@ -128,14 +128,14 @@ public class PettyCashSms {
         return null;
     }
 
-    private String createManager(double amount, String phone) throws IOException {
+    private String createManager(double amount, String phone, String status, String description) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
         MediaType mediaType = MediaType.parse("application/json");
         String requestBody = "{\n" +
                 "    \"key\": \"!ea48d_nrzi2lnz1u6emq#78tak#jlri(e5y2y763p(7o5xt#x63vnyajnlsz0ue\",\n" +
                 "    \"msisdn\": \"" + phone + "\",\n" +
-                "    \"message\": \""+ amount + ", has been approved "+"\",\n" +
+                "    \"message\": \""+description+": "+ amount + ", has been "+status+"\",\n" +
                 "    \"sender_id\": \"KODSON PLUS\"\n" +
                 "}";
 

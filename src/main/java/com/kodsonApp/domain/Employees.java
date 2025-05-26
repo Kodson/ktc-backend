@@ -46,4 +46,6 @@ public class Employees {
     private String bankName;
     private String branch;
     private String sortCode;
+    private Boolean paye;
+    private Boolean snit;
 }

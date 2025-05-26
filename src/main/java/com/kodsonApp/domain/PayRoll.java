@@ -56,4 +56,6 @@ public class PayRoll {
     private String employeeId;
     private String currentLoan;
     private String currentSurcharge;
+    private double gross;
+    private double fuelDeduction;
 }
