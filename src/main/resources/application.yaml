@@ -7,7 +7,7 @@ server:
 spring:
 
   datasource:
-    url: dbc:mysql://192.168.88.237:3306/kodsonplus  #jdbc:mysql://192.168.88.237:3306/kodsonplus  jdbc:mysql://localhost:3306/kodsonplus
+    url: jdbc:mysql://192.168.88.237:3306/kodsonplus  #jdbc:mysql://192.168.88.237:3306/kodsonplus  jdbc:mysql://localhost:3306/kodsonplus
     password: 0040105715@Kodson12345 #0040105715@Kodson12345  root
     username: kodsonplus #kodsonplus root
   jpa:
