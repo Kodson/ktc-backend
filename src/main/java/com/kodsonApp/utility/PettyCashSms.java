@@ -42,7 +42,7 @@ public class PettyCashSms {
         String requestBody = "{\n" +
                 "    \"key\": \"!ea48d_nrzi2lnz1u6emq#78tak#jlri(e5y2y763p(7o5xt#x63vnyajnlsz0ue\",\n" +
                 "    \"msisdn\": \"" + phone + "\",\n" +
-                "    \"message\": \" Your task with description :"+ description + ", is due in one day. "+"\",\n" +
+                "    \"message\": \" Your :"+ description + ", is expiring. "+"\",\n" +
                 "    \"sender_id\": \"KODSON PLUS\"\n" +
                 "}";
 
