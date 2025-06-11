@@ -1,7 +1,6 @@
 package com.kodsonApp.resource;
 
 import com.kodsonApp.domain.Trips;
-import com.kodsonApp.domain.Variables;
 import com.kodsonApp.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -52,13 +50,7 @@ public class TripsResource {
         tripService.deleteTrip(id);
         return ResponseEntity.noContent().build();
     }
-/*
-    @GetMapping("/getAllTrips")
-    public ResponseEntity<List<Trips>> getAllTrips() {
-        List<Trips> trips = tripService.getAllTrips();
-        return ResponseEntity.ok(trips);
-    }
-*/
+
     @GetMapping("/getAllTrips")
     public ResponseEntity<Page<Trips>> getAllTrips(
             @RequestParam(defaultValue = "0") int page,
@@ -68,15 +60,7 @@ public class TripsResource {
         Page<Trips> variablesPage = tripService.getAllTrips(page,size,sortDirection);
         return ResponseEntity.ok(variablesPage);
     }
-/*
-    @GetMapping("/fetchReports")
-    public ResponseEntity<List<Trips>> fetchReports(
-            @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        List<Trips> reports = tripService.getTripsByDateRange(startDate, endDate);
-        return ResponseEntity.ok(reports);
-    }
-*/
+
     @GetMapping("/fetchReports")
     public ResponseEntity<Page<Trips>> fetchReports(
             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
@@ -91,13 +75,7 @@ public class TripsResource {
         Page<Trips> reportsPage = tripService.getTripsByDateRange(startDate, endDate, pageable);
         return ResponseEntity.ok(reportsPage);
     }
-/*
-    @GetMapping("/getFilterByWaybill")
-    public ResponseEntity<List<Trips>> getFilterByWaybill() {
-        List<Trips> filteredTrips = tripService.getFilteredByWaybill();
-        return ResponseEntity.ok(filteredTrips);
-    }
-*/
+
     @GetMapping("/getFilterByWaybill")
     public ResponseEntity<Page<Trips>> getFilterByWaybill(
             @RequestParam(defaultValue = "0") int page,

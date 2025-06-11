@@ -23,11 +23,13 @@ public class TripService {
     private VariablesRepo variablesRepo;
 
     public Trips saveTrip(Trips trip) {
+        long maxSequence = tripsRepo.findMaxSequence();
+        trip.setSequence(maxSequence + 1);
         return tripsRepo.save(trip);
     }
 
     public Page<Trips> getAllTrips(int page, int size, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date"); // Sort by 'date' field
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "sequence"); // Sort by 'date' field
         Pageable pageable = PageRequest.of(page, size, sort);
         return tripsRepo.findAll(pageable);
     }
@@ -80,21 +82,6 @@ public class TripService {
         return tripsRepo.findByDateBetween(startDate, endDate, pageable);
     }
 
-   /* public List<Trips> getFilteredByWaybill() {
-        // Fetch all trips
-        List<Trips> allTrips = tripsRepo.findAll();
-
-        // Get all wayBillNums from Variables
-        List<String> variableWayBillNums = variablesRepo.findAll()
-                .stream()
-                .map(Variables::getWayBillNum)
-                .collect(Collectors.toList());
-
-        // Filter out trips where the wayBillNum exists in Variables
-        return allTrips.stream()
-                .filter(trip -> !variableWayBillNums.contains(trip.getWayBillNum()))
-                .collect(Collectors.toList());
-    }*/
 
     public Page<Trips> getFilteredByWaybill(int page, int size, String sortDirection) {
         // Fetch all wayBillNums from Variables
