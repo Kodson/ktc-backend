@@ -34,7 +34,7 @@ public class ItemRequestService {
     public ItemRequest save(ItemRequest itemRequest) throws IOException {
         //log.info("Saving ItemRequest: {}", itemRequest);
         itemRequestRepo.save(itemRequest);
-        pettyCashSms.sendGmItem(itemRequest.getItem());
+        //pettyCashSms.sendGmItem(itemRequest.getItem());
         itemSocketHandler.broadcastMessage("New petty item request submitted.");
         return itemRequest;
     }

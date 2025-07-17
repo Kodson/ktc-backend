@@ -48,6 +48,7 @@ public class MajorTaskService {
 
     public List<MajorTask> getTasksByUserOrMember(String userName) {
         List<MajorTask> allTasks = majorTaskRepo.findAll();
+        System.out.println(userName);
         return allTasks.stream()
                 .filter(task -> task.getUserName().equals(userName) ||
                         (task.getMembers() != null && task.getMembers().contains(userName)))
