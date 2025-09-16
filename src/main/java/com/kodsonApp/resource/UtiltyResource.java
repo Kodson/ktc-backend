@@ -1,7 +1,5 @@
 package com.kodsonApp.resource;
 
-import com.kodsonApp.domain.DailySales;
-import com.kodsonApp.domain.Loans;
 import com.kodsonApp.domain.Utility;
 import com.kodsonApp.service.UtilityService;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +33,24 @@ public class UtiltyResource {
         return ResponseEntity.ok().body(utilityService.getUtilityById(id));
     }
 
-    @GetMapping("/station/{station}")
-    public ResponseEntity<List<Utility>> getUtilityByStation(@PathVariable String station) {
-        return ResponseEntity.ok().body(utilityService.getUtilityByUser(station));
+    @GetMapping("/station/{stationId}")
+    public ResponseEntity<List<Utility>> getUtilityByStation(@PathVariable String stationId) {
+        return ResponseEntity.ok().body(utilityService.getUtilityByStation(stationId));
+    }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Utility>> getUtilityByStatus(@PathVariable String status) {
+        return ResponseEntity.ok().body(utilityService.getUtilityByStatus(status));
+    }
+
+    @GetMapping("/type/{utilityType}")
+    public ResponseEntity<List<Utility>> getUtilityByType(@PathVariable String utilityType) {
+        return ResponseEntity.ok().body(utilityService.getUtilityByType(utilityType));
+    }
+
+    @GetMapping("/station/{stationId}/status/{status}")
+    public ResponseEntity<List<Utility>> getUtilityByStationAndStatus(@PathVariable String stationId, @PathVariable String status) {
+        return ResponseEntity.ok().body(utilityService.getUtilityByStationAndStatus(stationId, status));
     }
 
     @DeleteMapping("/{id}")
@@ -47,9 +60,8 @@ public class UtiltyResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Utility> updateLoan( @RequestBody Utility utilityDetails, @PathVariable String id) {
+    public ResponseEntity<Utility> updateUtility(@RequestBody Utility utilityDetails, @PathVariable String id) {
         Utility updatedUtility = utilityService.updateUtility(utilityDetails, id);
         return ResponseEntity.ok(updatedUtility);
     }
-
 }

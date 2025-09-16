@@ -1,4 +1,7 @@
 package com.kodsonApp.repository;
 
-public interface PriceUpdateRepo {
+import com.kodsonApp.domain.PriceUpdate;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PriceUpdateRepo extends JpaRepository<PriceUpdate, String> {
 }

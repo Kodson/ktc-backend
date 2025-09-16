@@ -1,17 +1,24 @@
 package com.kodsonApp.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.Date;
 @Entity
 @Component
+@Setter
+@Getter
+@ToString
 public class Kodson implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id;
     private String username;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -28,6 +35,8 @@ public class Kodson implements Serializable {
     private boolean isNotLocked;
     private boolean isEnabled;
 
+
+    private String status;
     private String phone;
 
     private boolean mfaEnabled;
@@ -35,10 +44,9 @@ public class Kodson implements Serializable {
     private String secretImageUri;
     private int otp;
 
-
     public Kodson() {
     }
-    public Kodson(Long id, String restaurantId, String username, String password, String email, String profileImageUrl, Date lastLoginDate, Date lastLoginDateDisplay, Date joinDate, String role, String[] authorities, boolean isActive, boolean isAccountVerified, boolean isNotLocked, boolean isEnabled, String userBranch, String phone, boolean mfaEnabled, String secret, String secretImageUri, int otp, String location, String orderingSystem, boolean wifi, String bank_crypto, String account_name, String account_number, String iBan) {
+    public Kodson(Long id, String restaurantId, String username, String password, String email, String profileImageUrl, Date lastLoginDate, Date lastLoginDateDisplay, Date joinDate, String role, String[] authorities, boolean isActive, boolean isAccountVerified, boolean isNotLocked, boolean isEnabled, String status, String userBranch, String phone, boolean mfaEnabled, String secret, String secretImageUri, int otp, String location, String orderingSystem, boolean wifi, String bank_crypto, String account_name, String account_number, String iBan) {
         this.id = id;
 
         this.username = username;
@@ -54,7 +62,7 @@ public class Kodson implements Serializable {
         this.isAccountVerified = isAccountVerified;
         this.isNotLocked = isNotLocked;
         this.isEnabled = isEnabled;
-
+        this.status = status;
         this.phone = phone;
         this.mfaEnabled = mfaEnabled;
         this.secret = secret;
@@ -63,14 +71,6 @@ public class Kodson implements Serializable {
 
     }
     public Kodson(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
         this.id = id;
     }
 
@@ -214,6 +214,21 @@ public class Kodson implements Serializable {
 
     public boolean isAccountVerified() {
         return isAccountVerified;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setAccountVerified(boolean accountVerified) {

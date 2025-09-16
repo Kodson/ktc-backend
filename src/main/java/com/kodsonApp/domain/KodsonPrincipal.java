@@ -50,4 +50,9 @@ public class KodsonPrincipal implements UserDetails {
     public boolean isEnabled() {
         return this.kodson.isActive();
     }
+
+    // Add getter method to access the underlying Kodson user object
+    public Kodson getKodson() {
+        return this.kodson;
+    }
 }

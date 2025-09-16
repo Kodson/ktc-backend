@@ -1,12 +1,40 @@
+# Development Environment Configuration
+spring:
+  profiles:
+    active: dev
 
+  # PostgreSQL Development Database
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kodsonplus_dev
+    username: kodsonuser
+    password: kodsonpass
 
-#Server
-SERVER_PORT: 8081
-ACTIVE_PROFILE: dev
+  jpa:
+    hibernate:
+      ddl-auto: create-drop  # Auto-create tables for development
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
-#Email Config
-EMAIL_HOST: mail.kodsonplusltd.com
-EMAIL_PORT: 587
-EMAIL_ID: info@kodsonplusltd.com
-EMAIL_PASSWORD: kds23#plus
-VERIFY_EMAIL_HOST: http://41.139.44.167:${SERVER_PORT}
+  # Redis Development
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 1  # Use different database for dev
+
+# Logging for development
+logging:
+  level:
+    com.kodsonApp: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: DEBUG
+
+# Development server settings
+server:
+  tomcat:
+    threads:
+      max: 50  # Lower for development
+

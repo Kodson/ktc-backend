@@ -1,17 +1,15 @@
 package com.kodsonApp.resource;
 
-import com.kodsonApp.domain.DailySales;
-import com.kodsonApp.domain.Loans;
 import com.kodsonApp.domain.Statutory;
-import com.kodsonApp.domain.Utility;
 import com.kodsonApp.service.StatutoryService;
-import com.kodsonApp.service.UtilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -37,9 +35,42 @@ public class StatutoryResource {
         return ResponseEntity.ok().body(statutoryService.getStatutoryById(id));
     }
 
-    @GetMapping("/station/{station}")
-    public ResponseEntity<List<Statutory>> getUtilityByUser(@PathVariable String station) {
-        return ResponseEntity.ok().body(statutoryService.getStatutoryByUser(station));
+    @GetMapping("/station/{stationId}")
+    public ResponseEntity<List<Statutory>> getStatutoryByStation(@PathVariable String stationId) {
+        return ResponseEntity.ok().body(statutoryService.getStatutoryByStation(stationId));
+    }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Statutory>> getStatutoryByStatus(@PathVariable String status) {
+        return ResponseEntity.ok().body(statutoryService.getStatutoryByStatus(status));
+    }
+
+    @GetMapping("/type/{type}")
+    public ResponseEntity<List<Statutory>> getStatutoryByType(@PathVariable String type) {
+        return ResponseEntity.ok().body(statutoryService.getStatutoryByType(type));
+    }
+
+    @GetMapping("/payment-status/{paymentStatus}")
+    public ResponseEntity<List<Statutory>> getStatutoryByPaymentStatus(@PathVariable String paymentStatus) {
+        return ResponseEntity.ok().body(statutoryService.getStatutoryByPaymentStatus(paymentStatus));
+    }
+
+    @GetMapping("/station/{stationId}/status/{status}")
+    public ResponseEntity<List<Statutory>> getStatutoryByStationAndStatus(@PathVariable String stationId, @PathVariable String status) {
+        return ResponseEntity.ok().body(statutoryService.getStatutoryByStationAndStatus(stationId, status));
+    }
+
+    @GetMapping("/expiring-before/{date}")
+    public ResponseEntity<List<Statutory>> getStatutoryExpiringBefore(
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return ResponseEntity.ok().body(statutoryService.getStatutoryExpiringBefore(date));
+    }
+
+    @GetMapping("/expiring-between")
+    public ResponseEntity<List<Statutory>> getStatutoryExpiringBetween(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return ResponseEntity.ok().body(statutoryService.getStatutoryExpiringBetween(startDate, endDate));
     }
 
     @DeleteMapping("/{id}")
@@ -49,9 +80,8 @@ public class StatutoryResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Statutory> updateStatutory( @RequestBody Statutory statutoryDetails, @PathVariable String id) {
+    public ResponseEntity<Statutory> updateStatutory(@RequestBody Statutory statutoryDetails, @PathVariable String id) {
         Statutory updatedStatutory = statutoryService.updateStatutory(statutoryDetails, id);
         return ResponseEntity.ok(updatedStatutory);
     }
-
 }

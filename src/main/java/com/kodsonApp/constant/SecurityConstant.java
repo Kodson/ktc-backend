@@ -11,6 +11,28 @@ public class SecurityConstant {
     public static final String FORBIDDEN_MESSAGE = "You need to log in to access this page";
     public static final String ACCESS_DENIED_MESSAGE = "You do not have permission to access this page";
     public static final String OPTIONS_HTTP_METHOD = "OPTIONS";
-    //public static final String[] PUBLIC_URLS = { "/transportApp/v1/user/login", "/transportApp/v1/user/image/**","/transportApp/v1/booking/findTicket" };
-    public static final String[] PUBLIC_URLS = { "**" }; //"/transportApp/v1/user/register",
+
+    // Properly secured public URLs - only authentication and health endpoints
+    public static final String[] PUBLIC_URLS = {
+        "/api/auth/login",
+        "/api/auth/register",
+        "/api/user/login", // <-- Added to allow public access
+        "/actuator/health",
+        "/actuator/info",
+        "/api/public/**",
+        "/swagger-ui/**",
+        "/v3/api-docs/**"
+    };
+
+    // Admin only URLs
+    public static final String[] ADMIN_URLS = {
+        "/api/admin/**",
+        "/actuator/**"
+    };
+
+    // Manager and above URLs
+    public static final String[] MANAGER_URLS = {
+        "/api/reports/**",
+        "/api/analytics/**"
+    };
 }

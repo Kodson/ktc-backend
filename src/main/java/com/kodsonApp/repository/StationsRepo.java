@@ -11,4 +11,5 @@ public interface StationsRepo extends JpaRepository<Stations, String> {
     @Override
     Optional<Stations> findById(String id);
     Optional<Stations> findByManager(String manager);
+    Optional<Stations> findByManagerUserId(String managerUserId);
 }

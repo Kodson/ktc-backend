@@ -1,6 +1,6 @@
 package com.kodsonApp.exception;
 
-import com.auth0.jwt.exceptions.TokenExpiredException;
+import io.jsonwebtoken.JwtException;
 import com.kodsonApp.exception.domain.UserNotFoundException;
 import com.kodsonApp.exception.domain.UsernameExistException;
 import com.kodsonApp.domain.HttpResponse;
@@ -60,8 +60,8 @@ public class ExceptionHandling implements ErrorController {
         return createHttpResponse(UNAUTHORIZED, ACCOUNT_LOCKED);
     }
 
-    @ExceptionHandler(TokenExpiredException.class)
-    public ResponseEntity<HttpResponse> tokenExpiredException(TokenExpiredException exception) {
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<HttpResponse> jwtException(JwtException exception) {
         return createHttpResponse(UNAUTHORIZED, exception.getMessage());
     }
 

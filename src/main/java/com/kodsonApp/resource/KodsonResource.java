@@ -3,17 +3,22 @@ package com.kodsonApp.resource;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.kodsonApp.DTO.UserRequest;
+import com.kodsonApp.DTO.UsersResponse;
 import com.kodsonApp.constant.SecurityConstant;
 import com.kodsonApp.domain.Kodson;
+import com.kodsonApp.domain.Stations;
 import com.kodsonApp.exception.domain.*;
 import com.kodsonApp.domain.HttpResponse;
 import com.kodsonApp.domain.KodsonPrincipal;
 import com.kodsonApp.exception.ExceptionHandling;
 import com.kodsonApp.service.KodsonService;
+import com.kodsonApp.service.StationsService;
 import com.kodsonApp.service.impl.KodsonServiceImpl;
 import com.kodsonApp.service.impl.OtpService;
 import com.kodsonApp.utility.JWTTokenProvider;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +40,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -42,10 +48,12 @@ import java.util.concurrent.TimeUnit;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
+@Slf4j
 @RestController
 @RequestMapping(path = { "/","api/user"})
 public class KodsonResource extends ExceptionHandling {
     private KodsonService kodsonService;
+    private StationsService stationsService;
     private OtpService otpService;
     public static final String EMAIL_SENT = "An email with a new password was sent to: ";
     public static final String USER_DELETED_SUCCESSFULLY = "User deleted successfully";
@@ -56,13 +64,13 @@ public class KodsonResource extends ExceptionHandling {
 
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
 
-
     @Autowired
     private KodsonServiceImpl kodsonServiceImple;
 
     @Autowired
-    public KodsonResource(KodsonService restaurantService, OtpService otpService, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
+    public KodsonResource(KodsonService restaurantService, StationsService stationsService, OtpService otpService, AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider) {
         this.kodsonService = restaurantService;
+        this.stationsService = stationsService;
         this.otpService = otpService;
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -75,17 +83,66 @@ public class KodsonResource extends ExceptionHandling {
                         return null; // Placeholder, actual loading logic will be implemented in login method
                     }
                 });
-
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Kodson> login(@RequestBody Kodson restaurant) throws IOException {
-        authenticate(restaurant.getUsername(), restaurant.getPassword());
-        //Restaurant loginUser = restaurantService.findUserByUsername(restaurant.getUsername());
-        restaurantCache.put("loginU", restaurant);
-        //RestaurantPrincipal restaurantPrincipal = new RestaurantPrincipal(loginUser);
-        //HttpHeaders jwtHeader = getJwtHeader(restaurantPrincipal);
-        return new ResponseEntity(OK);  //loginUser, jwtHeader,
+    public ResponseEntity<?> login(@RequestBody Kodson restaurant) throws IOException {
+        try {
+            // Authenticate user credentials
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(restaurant.getUsername(), restaurant.getPassword()));
+
+            // Find the authenticated user
+            Kodson loginUser = kodsonService.findUserByUsername(restaurant.getUsername());
+
+            // Create principal and generate JWT token
+            KodsonPrincipal kodsonPrincipal = new KodsonPrincipal(loginUser);
+            HttpHeaders jwtHeader = getJwtHeader(kodsonPrincipal);
+
+            // Build base response
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Login successful");
+            response.put("userId", loginUser.getId());
+            response.put("username", loginUser.getUsername());
+            response.put("email", loginUser.getEmail());
+            response.put("role", loginUser.getRole());
+            response.put("isActive", loginUser.isActive());
+            response.put("token", jwtHeader.getFirst(SecurityConstant.JWT_TOKEN_HEADER));
+
+            // Log base user information
+            LOGGER.info("User logged in successfully: username={}, email={}, role={}, userId={}, isActive={}",
+                       loginUser.getUsername(), loginUser.getEmail(), loginUser.getRole(),
+                       loginUser.getId(), loginUser.isActive());
+
+            // If user is a station manager, fetch and include station information
+            if ("ROLE_STATION_MANAGER".equals(loginUser.getRole())) {
+                try {
+                    Stations station = stationsService.findStationByManagerUserId(loginUser.getId().toString());
+                    if (station != null) {
+                        Map<String, Object> stationInfo = new HashMap<>();
+                        stationInfo.put("stationId", station.getId());
+                        stationInfo.put("stationName", station.getName());
+                        response.put("station", stationInfo);
+
+                        LOGGER.info("Station information added for manager {}: Station ID = {}, Name = {}",
+                                   loginUser.getUsername(), station.getId(), station.getName());
+                    } else {
+                        LOGGER.warn("No station found for station manager: {}", loginUser.getUsername());
+                    }
+                } catch (Exception e) {
+                    LOGGER.error("Error fetching station information for user {}: {}", loginUser.getUsername(), e.getMessage());
+                    // Don't fail login if station fetch fails, just log the error
+                }
+            }
+
+            // Log the complete response data being returned
+            LOGGER.info("Login response data for user {}: {}", loginUser.getUsername(), response);
+
+            return new ResponseEntity<>(response, jwtHeader, HttpStatus.OK);
+
+        } catch (Exception e) {
+            LOGGER.error("Login failed for user: " + restaurant.getUsername(), e);
+            return new ResponseEntity<>(Map.of("message", "Invalid username or password"), HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @PostMapping("/signUp")
@@ -112,6 +169,24 @@ public class KodsonResource extends ExceptionHandling {
         Kodson newUser = kodsonService.addNewUser(password,phone, username,email, role, Boolean.parseBoolean(isNonLocked), Boolean.parseBoolean(isActive), profileImage);
         return new ResponseEntity<>(newUser, OK);
     }
+
+    @PostMapping("/adduser")
+    public ResponseEntity<Kodson> addNewUser(
+            @Valid @RequestBody UserRequest request
+    ) throws Exception {
+        Kodson newUser = kodsonService.addNewUser(
+                request.getPassword(),
+                request.getPhone(),
+                request.getUsername(),
+                request.getEmail(),
+                request.getRole(),
+                request.isNonLocked(),
+                request.isActive(),
+                null // handle profileImage separately if needed
+        );
+        return new ResponseEntity<>(newUser, HttpStatus.OK);
+    }
+
 
     @PostMapping("/update")
     public ResponseEntity<Kodson> update(@RequestParam("currentUsername") String currentUsername,
@@ -159,10 +234,22 @@ public class KodsonResource extends ExceptionHandling {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Kodson>> getAllUsers() {
+    public ResponseEntity<UsersResponse> getAllUsers() {
         List<Kodson> users = kodsonService.getUsers();
-        return new ResponseEntity<>(users, OK);
+
+        // Log the result
+        LOGGER.info("Fetched {} users: {}", users.size(), users);
+
+        UsersResponse response = new UsersResponse(
+                true,
+                users,
+                users.size(),
+                "Users fetched successfully"
+        );
+        return new ResponseEntity<>(response, OK);
     }
+
+
 
 
 

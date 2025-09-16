@@ -7,5 +7,8 @@ import java.util.List;
 
 @Repository
 public interface UtilityRepo extends JpaRepository<Utility, String> {
-    List<Utility> findByStation(String station);
+    List<Utility> findByStationId(String stationId);
+    List<Utility> findByStatus(String status);
+    List<Utility> findByUtility(String utility);
+    List<Utility> findByStationIdAndStatus(String stationId, String status);
 }

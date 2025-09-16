@@ -1,0 +1,46 @@
+# Production Environment Configuration
+spring:
+  profiles:
+    active: prod
+
+  # PostgreSQL Production Database
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/kodsonplus}
+    username: ${DATABASE_USERNAME:kodsonuser}
+    password: ${DATABASE_PASSWORD:kodsonpass}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate  # Never auto-update schema in production
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+  # Redis Production
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: 0
+
+# Production logging
+logging:
+  level:
+    com.kodsonApp: INFO
+    org.springframework.security: WARN
+    org.hibernate: WARN
+  file:
+    name: logs/kodson-api.log
+    max-size: 100MB
+    max-history: 30
+
+# Production security
+server:
+  ssl:
+    enabled: ${SSL_ENABLED:false}
+    key-store: ${SSL_KEYSTORE_PATH:}
+    key-store-password: ${SSL_KEYSTORE_PASSWORD:}
+    key-store-type: PKCS12
+

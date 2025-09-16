@@ -12,8 +12,9 @@ import com.kodsonApp.service.EmailService;
 import com.kodsonApp.service.LoginAttemptService;
 import com.kodsonApp.service.PhoneService;
 import com.kodsonApp.service.KodsonService;
-import com.kodsonApp.utility.JwtTokenUtil;
+import com.kodsonApp.utility.JWTTokenProvider;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
@@ -45,7 +46,7 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 @Service
 @Transactional
 @Qualifier("userDetailsService")
-
+@Slf4j
 public class KodsonServiceImpl implements KodsonService, UserDetailsService {
     public static final String EMAIL_ALREADY_EXISTS = "email already exists";
     public static final String USER_NAME_ALREADY_EXIST = "user name already exist";
@@ -61,21 +62,19 @@ public class KodsonServiceImpl implements KodsonService, UserDetailsService {
     private PhoneService phoneService;
 
     private final ConfirmationRepository confirmationRepository;
-    private final TwoFactorAuthenticationService tfaService;
 
     @Autowired
-    public KodsonServiceImpl(KodsonRepository repository, BCryptPasswordEncoder passwordEncoder, LoginAttemptService loginAttemptService, EmailService emailService, PhoneService phoneService, ConfirmationRepository confirmationRepository, TwoFactorAuthenticationService tfaService) {
+    public KodsonServiceImpl(KodsonRepository repository, BCryptPasswordEncoder passwordEncoder, LoginAttemptService loginAttemptService, EmailService emailService, PhoneService phoneService, ConfirmationRepository confirmationRepository) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.loginAttemptService = loginAttemptService;
         this.emailService = emailService;
         this.phoneService = phoneService;
         this.confirmationRepository = confirmationRepository;
-        this.tfaService = tfaService;
     }
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private JWTTokenProvider jwtTokenProvider;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
@@ -143,6 +142,7 @@ public class KodsonServiceImpl implements KodsonService, UserDetailsService {
         kodson.setRole(getRoleEnumName(role).name());
         kodson.setAuthorities(getRoleEnumName(role).getAuthorities());
         kodson.setProfileImageUrl(getTemporaryProfileImageUrl(username));
+        kodson.setStatus("Active");
         repository.save(kodson);
         saveProfileImage(kodson, profileImage);
         LOGGER.info("Your userName is "+ username);
@@ -360,7 +360,7 @@ public class KodsonServiceImpl implements KodsonService, UserDetailsService {
     }
 
     public Boolean verifyLoginToken(String token) {
-        return jwtTokenUtil.isTokenValid(token);
+        return jwtTokenProvider.isTokenValid(token);
     }
 
 }
