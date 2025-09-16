@@ -8,6 +8,9 @@ WORKDIR /app
 COPY mvnw mvnw.cmd pom.xml ./
 COPY .mvn .mvn
 
+# Fix permissions for Maven wrapper
+RUN chmod +x mvnw
+
 # Copy the source code
 COPY src ./src
 
