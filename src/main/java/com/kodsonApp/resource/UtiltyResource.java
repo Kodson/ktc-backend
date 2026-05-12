@@ -34,8 +34,12 @@ public class UtiltyResource {
     }
 
     @GetMapping("/station/{stationId}")
-    public ResponseEntity<List<Utility>> getUtilityByStation(@PathVariable String stationId) {
-        return ResponseEntity.ok().body(utilityService.getUtilityByStation(stationId));
+    public ResponseEntity<Page<Utility>> getUtilityByStation(
+            @PathVariable String stationId,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "1000") int size,
+            @RequestParam(value = "sortDirection", defaultValue = "desc") String sortDirection) {
+        return ResponseEntity.ok().body(utilityService.getUtilityByStation(stationId, page, size, sortDirection));
     }
 
     @GetMapping("/status/{status}")

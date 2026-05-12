@@ -51,6 +51,12 @@ public class UtilityService {
         return utilityRepo.findByStationId(stationId);
     }
 
+    public Page<Utility> getUtilityByStation(String stationId, int page, int size, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "dueDate");
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return utilityRepo.findByStationId(stationId, pageable);
+    }
+
     public List<Utility> getUtilityByStatus(String status) {
         return utilityRepo.findByStatus(status);
     }

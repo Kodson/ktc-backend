@@ -32,9 +32,13 @@ public class WashingBayResource {
         return ResponseEntity.ok().body(washinBayService.getWashingBayById(id));
     }
 
-    @GetMapping("/station/{station}")
-    public ResponseEntity<List<WashingBay>> getWashingBayByStation(@PathVariable String station) {
-        return ResponseEntity.ok().body(washinBayService.getWashingBayByUser(station));
+    @GetMapping("/station/{stationId}")
+    public ResponseEntity<Page<WashingBay>> getWashingBayByStation(
+            @PathVariable String stationId,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(defaultValue = "desc") String sortDirection) {
+        return ResponseEntity.ok().body(washinBayService.getWashingBayByStationPaginated(stationId, page, size, sortDirection));
     }
 
     @DeleteMapping("/{id}")

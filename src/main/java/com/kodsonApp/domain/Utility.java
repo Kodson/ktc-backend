@@ -1,7 +1,9 @@
 package com.kodsonApp.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
+import com.kodsonApp.utility.LocalDateDeserializer;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -33,6 +35,7 @@ public class Utility {
 
     @NotNull(message = "Due date is required")
     @Column(nullable = false)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dueDate;
 
     private Integer daysOverdue;

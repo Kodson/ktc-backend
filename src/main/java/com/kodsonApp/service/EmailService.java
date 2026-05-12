@@ -1,9 +1,6 @@
 package com.kodsonApp.service;
 
-import com.sun.mail.smtp.SMTPTransport;
 import org.springframework.stereotype.Service;
-
-
 
 @Service
 public interface EmailService {

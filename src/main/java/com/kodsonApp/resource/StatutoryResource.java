@@ -36,14 +36,14 @@ public class StatutoryResource {
     }
 
     @GetMapping("/station/{stationId}")
-    public ResponseEntity<List<Statutory>> getStatutoryByStation(@PathVariable String stationId) {
-        return ResponseEntity.ok().body(statutoryService.getStatutoryByStation(stationId));
+    public ResponseEntity<Page<Statutory>> getStatutoryByStation(
+            @PathVariable String stationId,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(defaultValue = "desc") String sortDirection) {
+        return ResponseEntity.ok().body(statutoryService.getStatutoryByStation(stationId, page, size, sortDirection));
     }
 
-    @GetMapping("/status/{status}")
-    public ResponseEntity<List<Statutory>> getStatutoryByStatus(@PathVariable String status) {
-        return ResponseEntity.ok().body(statutoryService.getStatutoryByStatus(status));
-    }
 
     @GetMapping("/type/{type}")
     public ResponseEntity<List<Statutory>> getStatutoryByType(@PathVariable String type) {

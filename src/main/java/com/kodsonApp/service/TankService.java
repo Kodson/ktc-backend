@@ -10,7 +10,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +23,9 @@ public class TankService extends BaseService<Tank, String> {
 
     private final TankRepo tankRepo;
     private final TankHistoryService tankHistoryService;
+    
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public TankService(TankRepo tankRepo, TankHistoryService tankHistoryService) {
         this.tankRepo = tankRepo;
@@ -141,12 +146,30 @@ public class TankService extends BaseService<Tank, String> {
     }
 
     @Transactional
-    @CacheEvict(value = "tanks", key = "#id")
+    @CacheEvict(value = "tanks", allEntries = true)
     public void deleteTank(String id) {
         if (!tankRepo.existsById(id)) {
             throw new EntityNotFoundException("Tank not found with id: " + id);
         }
+        
+        // Get tank details before deletion for history logging
+        Tank tank = tankRepo.findById(id).orElseThrow(
+            () -> new EntityNotFoundException("Tank not found with id: " + id));
+        
+        // Record tank deletion in history
+        tankHistoryService.recordTankOperation(
+            tank,
+            TankOperation.MAINTENANCE,
+            0.0,
+            "System - Tank Deleted"
+        );
+        
+        // Delete the tank
         tankRepo.deleteById(id);
+        
+        // Force immediate synchronization with database
+        tankRepo.flush();
+        entityManager.clear(); // Clear the persistence context to force fresh data on next fetch
     }
 
     @Cacheable(value = "tanks", key = "'history-' + #id")

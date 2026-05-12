@@ -69,10 +69,6 @@ public class Statutory {
     @Column(nullable = false)
     private String paymentStatus;
 
-    @NotBlank(message = "Status is required")
-    @Column(nullable = false)
-    private String status;
-
     @NotBlank(message = "Assignee is required")
     @Column(nullable = false)
     private String assignee;
@@ -88,6 +84,7 @@ public class Statutory {
     @NotBlank(message = "Created by is required")
     @Column(nullable = false)
     private String createdBy;
+
 
     @CreationTimestamp
     @Column(updatable = false)

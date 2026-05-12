@@ -1,0 +1,529 @@
+{
+  "info": {
+    "name": "KTC API Collection",
+    "description": "Complete API collection for KTC ERP System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "User Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const responseJson = pm.response.json();",
+                  "    pm.collectionVariables.set('token', responseJson.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"I.T\",\n  \"password\": \"0040105715@Icon\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "login"]
+            }
+          },
+          "response": [
+            {
+              "name": "Login Success",
+              "originalRequest": {},
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"username\": \"I.T\",\n  \"isActive\": true,\n  \"email\": \"iconmaxwellsowusu@gmail.com\",\n  \"role\": \"ROLE_SUPER_ADMIN\",\n  \"userId\": \"user-id-123\",\n  \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...\",\n  \"message\": \"Login successful\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Reporting",
+      "item": [
+        {
+          "name": "Station Report",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reports/station/KTC KPONE?startDate=2025-01-01&endDate=2025-01-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "station", "KTC KPONE"],
+              "query": [
+                { "key": "startDate", "value": "2025-01-01" },
+                { "key": "endDate", "value": "2025-01-31" }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Station Report Success",
+              "originalRequest": {},
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"totals\": {\n    \"pms\": {\n      \"openingStock\": 15400.00,\n      \"supply\": 9000.00,\n      \"availableStock\": 24400.00,\n      \"salesCost\": 7662.36,\n      \"salesUnitPrice\": {\n        \"price_14.5\": { \"totalSalesL\": 5000.0 },\n        \"price_15.0\": { \"totalSalesL\": 2662.36 }\n      },\n      \"closingStock\": 16797.64,\n      \"closingDispensing\": 16840.00,\n      \"undergroundGains\": 42.36,\n      \"pumpGains\": 19.01\n    },\n    \"ago\": {\n      \"openingStock\": 31600.00,\n      \"supply\": 17850.00,\n      \"availableStock\": 51450.00,\n      \"salesCost\": 18047.41,\n      \"salesUnitPrice\": {\n        \"price_13.2\": { \"totalSalesL\": 15000.0 },\n        \"price_13.5\": { \"totalSalesL\": 3047.41 }\n      },\n      \"closingStock\": 31402.59,\n      \"closingDispensing\": 31500.00,\n      \"undergroundGains\": 97.41,\n      \"pumpGains\": 45.12\n    },\n    \"rate\": {\n      \"openingStock\": 13.70,\n      \"supply\": 0,\n      \"availableStock\": 0,\n      \"salesCost\": 13.70,\n      \"salesUnitPrice\": 14.50,\n      \"closingStock\": 0,\n      \"closingDispensing\": 13.70,\n      \"undergroundGains\": 0,\n      \"pumpGains\": 0\n    },\n    \"ago_rate\": {\n      \"openingStock\": 12.80,\n      \"supply\": 0,\n      \"availableStock\": 0,\n      \"salesCost\": 12.80,\n      \"salesUnitPrice\": 13.20,\n      \"closingStock\": 0,\n      \"closingDispensing\": 12.80,\n      \"undergroundGains\": 0,\n      \"pumpGains\": 0\n    },\n    \"pms_value\": {\n      \"openingStock\": 210980.00,\n      \"supply\": 0,\n      \"availableStock\": 0,\n      \"salesCost\": 104973.53,\n      \"salesUnitPrice\": 104973.53,\n      \"closingStock\": 0,\n      \"closingDispensing\": 244180.00,\n      \"undergroundGains\": 580.33,\n      \"pumpGains\": 0\n    },\n    \"ago_value\": {\n      \"openingStock\": 404480.00,\n      \"supply\": 0,\n      \"availableStock\": 0,\n      \"salesCost\": 231006.85,\n      \"salesUnitPrice\": 231006.85,\n      \"closingStock\": 0,\n      \"closingDispensing\": 415800.00,\n      \"undergroundGains\": 1246.85,\n      \"pumpGains\": 0\n    },\n    \"total\": {\n      \"openingStock\": 615460.00,\n      \"supply\": 0,\n      \"availableStock\": 565970.00,\n      \"salesCost\": 335980.38,\n      \"salesUnitPrice\": {\n        \"price_14.5\": { \"totalSalesL\": 5000.0 },\n        \"price_15.0\": { \"totalSalesL\": 2662.36 },\n        \"price_13.2\": { \"totalSalesL\": 15000.0 },\n        \"price_13.5\": { \"totalSalesL\": 3047.41 }\n      },\n      \"closingStock\": 48200.23,\n      \"closingDispensing\": 48340.00,\n      \"undergroundGains\": 139.77,\n      \"pumpGains\": 64.13\n    }\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Weekly Sales Analysis",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reports/weekly-analysis/KTC KPONE?startDate=2025-09-23&endDate=2025-09-29",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "weekly-analysis", "KTC KPONE"],
+              "query": [
+                { 
+                  "key": "startDate", 
+                  "value": "2025-09-23",
+                  "description": "Start date of previous month's week 4 (format: YYYY-MM-DD)"
+                },
+                { 
+                  "key": "endDate", 
+                  "value": "2025-09-29",
+                  "description": "End date of previous month's week 4 (format: YYYY-MM-DD)"
+                }
+              ]
+            },
+            "description": "Generates weekly sales analysis showing previous month's week 4 as baseline, followed by current month's weeks. Provides week-over-week comparisons with PMS/AGO breakdown and percentage changes."
+          },
+          "response": [
+            {
+              "name": "Weekly Sales Analysis Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports/weekly-analysis/KTC KPONE?startDate=2025-09-23&endDate=2025-09-29",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", "weekly-analysis", "KTC KPONE"],
+                  "query": [
+                    { "key": "startDate", "value": "2025-09-23" },
+                    { "key": "endDate", "value": "2025-09-29" }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"stationName\": \"KTC ZENU\",\n  \"currentMonth\": \"OCTOBER\",\n  \"weeklyAnalysis\": [\n    {\n      \"week\": \"WEEK 4\",\n      \"month\": \"SEPTEMBER\",\n      \"differenceLtrs\": 6518.4399999999305,\n      \"salesLtrs\": 6518.44,\n      \"percentageChange\": \"100.00%\",\n      \"pms\": 4784.2,\n      \"timePeriod\": \"23th - 29th\",\n      \"ago\": 1734.24,\n      \"diffPms\": 4784.199999999916,\n      \"diffAgo\": 1734.2400000000139\n    },\n    {\n      \"week\": \"WEEK 1\",\n      \"month\": \"OCTOBER\",\n      \"differenceLtrs\": 347.6,\n      \"salesLtrs\": 6866.04,\n      \"percentageChange\": \"5.33%\",\n      \"pms\": 5351.64,\n      \"timePeriod\": \"30th - 5th\",\n      \"ago\": 1514.4,\n      \"diffPms\": 567.44,\n      \"diffAgo\": -219.84\n    },\n    {\n      \"week\": \"WEEK 2\",\n      \"month\": \"OCTOBER\",\n      \"differenceLtrs\": -266.44,\n      \"salesLtrs\": 6599.6,\n      \"percentageChange\": \"-3.88%\",\n      \"pms\": 5085.98,\n      \"timePeriod\": \"6th - 11th\",\n      \"ago\": 1513.62,\n      \"diffPms\": -265.66,\n      \"diffAgo\": -0.78\n    },\n    {\n      \"week\": \"WEEK 3\",\n      \"month\": \"OCTOBER\",\n      \"differenceLtrs\": 0.0,\n      \"salesLtrs\": 0.0,\n      \"percentageChange\": \"0.00%\",\n      \"pms\": 0.0,\n      \"timePeriod\": \"12th - 19th\",\n      \"ago\": 0.0,\n      \"diffPms\": 0.0,\n      \"diffAgo\": 0.0\n    }\n  ],\n  \"referenceDate\": \"2025-09-23 to 2025-09-29\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Monthly Sales Analysis",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reports/monthly-analysis/KTC ZENU?year=2025",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "monthly-analysis", "KTC ZENU"],
+              "query": [
+                { 
+                  "key": "year", 
+                  "value": "2025",
+                  "description": "Year for monthly analysis (format: YYYY)"
+                }
+              ]
+            },
+            "description": "Generates monthly sales analysis for the specified year, showing month-over-month comparisons with PMS/AGO breakdown and differences from previous months."
+          },
+          "response": [
+            {
+              "name": "Monthly Sales Analysis Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports/monthly-analysis/KTC ZENU?year=2025",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", "monthly-analysis", "KTC ZENU"],
+                  "query": [
+                    { "key": "year", "value": "2025" }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"stationName\": \"KTC ZENU\",\n  \"year\": 2025,\n  \"title\": \"MONTHLY SALES IN LITERS (2025)\",\n  \"monthlyAnalysis\": [\n    {\n      \"month\": \"DE_24\",\n      \"pmsAgo\": 0.0,\n      \"pms\": 0.0,\n      \"ago\": 0.0,\n      \"diffPmsAgo\": 0.0,\n      \"diffPms\": 0.0,\n      \"diffAgo\": 0.0\n    },\n    {\n      \"month\": \"Jan\",\n      \"pmsAgo\": 32479.94,\n      \"pms\": 23584.38,\n      \"ago\": 8895.56,\n      \"diffPmsAgo\": 32479.94,\n      \"diffPms\": 23584.38,\n      \"diffAgo\": 8895.56\n    },\n    {\n      \"month\": \"Feb\",\n      \"pmsAgo\": 28490.23,\n      \"pms\": 20804.60,\n      \"ago\": 7685.63,\n      \"diffPmsAgo\": -3989.71,\n      \"diffPms\": -2779.78,\n      \"diffAgo\": -1209.93\n    },\n    {\n      \"month\": \"Mar\",\n      \"pmsAgo\": 31113.54,\n      \"pms\": 23250.88,\n      \"ago\": 7862.66,\n      \"diffPmsAgo\": 2623.31,\n      \"diffPms\": 2446.28,\n      \"diffAgo\": 177.03\n    },\n    {\n      \"month\": \"Apr\",\n      \"pmsAgo\": 30734.47,\n      \"pms\": 22520.44,\n      \"ago\": 8214.03,\n      \"diffPmsAgo\": -379.07,\n      \"diffPms\": -730.44,\n      \"diffAgo\": 351.37\n    },\n    {\n      \"month\": \"May\",\n      \"pmsAgo\": 31565.03,\n      \"pms\": 22036.43,\n      \"ago\": 9528.60,\n      \"diffPmsAgo\": 830.56,\n      \"diffPms\": -484.01,\n      \"diffAgo\": 1314.57\n    },\n    {\n      \"month\": \"Jun\",\n      \"pmsAgo\": 30278.46,\n      \"pms\": 21429.55,\n      \"ago\": 8848.91,\n      \"diffPmsAgo\": -1286.57,\n      \"diffPms\": -606.88,\n      \"diffAgo\": -679.69\n    },\n    {\n      \"month\": \"Jul\",\n      \"pmsAgo\": 33525.53,\n      \"pms\": 24377.22,\n      \"ago\": 9148.31,\n      \"diffPmsAgo\": 3247.07,\n      \"diffPms\": 2947.67,\n      \"diffAgo\": 299.40\n    },\n    {\n      \"month\": \"Aug\",\n      \"pmsAgo\": 29765.24,\n      \"pms\": 22773.45,\n      \"ago\": 6991.79,\n      \"diffPmsAgo\": -3760.29,\n      \"diffPms\": -1603.77,\n      \"diffAgo\": -2156.52\n    }\n  ],\n  \"generatedAt\": \"2025-11-03\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Yearly Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reports/yearly-summary/KTC ZENU?year=2025",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "yearly-summary", "KTC ZENU"],
+              "query": [
+                { 
+                  "key": "year", 
+                  "value": "2025",
+                  "description": "Year for yearly summary (format: YYYY)"
+                }
+              ]
+            },
+            "description": "Generates yearly summary with totals and averages for the specified year."
+          },
+          "response": [
+            {
+              "name": "Yearly Summary Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{token}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/reports/yearly-summary/KTC ZENU?year=2025",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["reports", "yearly-summary", "KTC ZENU"],
+                  "query": [
+                    { "key": "year", "value": "2025" }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"stationName\": \"KTC ZENU\",\n  \"year\": 2025,\n  \"monthsWithData\": 8,\n  \"totalPmsAgo\": 247951.44,\n  \"totalPms\": 180776.95,\n  \"totalAgo\": 67174.49,\n  \"averageMonthlyPmsAgo\": 30993.93\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Supply Management",
+      "item": [
+        {
+          "name": "Create Supply (Bulk/Single)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[{\n  \"date\": \"2025-09-15\",\n  \"product\": \"AGO\",\n  \"qty\": 18000,\n  \"station\": \"KTC KPONE\",\n  \"rate\": 13.50,\n  \"amountCost\": 243000,\n  \"salesRate\": 14.20,\n  \"amountSales\": 255600,\n  \"expProfit\": 12600,\n  \"createdBy\": \"Jerry\"\n}]"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/supply/bulk",
+              "host": ["{{baseUrl}}"],
+              "path": ["supply", "bulk"]
+            }
+          },
+          "response": [
+            {
+              "name": "Supply Created",
+              "originalRequest": {},
+              "status": "Created",
+              "code": 201,
+              "body": "{\n  \"message\": \"Supply records created successfully\",\n  \"data\": [{\n    \"id\": \"supply-id-123\",\n    \"date\": \"2025-09-15T00:00:00\",\n    \"product\": \"AGO\",\n    \"qty\": 18000,\n    \"station\": \"KTC KPONE\",\n    \"status\": \"PENDING\"\n  }]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Approve Supply",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"APPROVE\",\n  \"reason\": \"Supply approved for delivery\",\n  \"approvedBy\": \"Ing Dr. Lawrence Yao Addo\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/supply/approve/{{supplyId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["supply", "approve", "{{supplyId}}"]
+            }
+          }
+        },
+        {
+          "name": "Confirm Supply Receipt",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"{{supplyId}}\",\n  \"confirmedBy\": \"Mr Amoh\",\n  \"confirmedAt\": \"2025-09-02T13:34:06.937Z\",\n  \"qtyR\": 18500,\n  \"overage\": 500,\n  \"shortage\": null,\n  \"notes\": \"Supply received in good condition\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/supply/confirm",
+              "host": ["{{baseUrl}}"],
+              "path": ["supply", "confirm"]
+            }
+          }
+        },
+        {
+          "name": "Get Supply by Station (Paginated)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/supply/station/KTC KPONE?page=0&size=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["supply", "station", "KTC KPONE"],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "10" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Daily Sales",
+      "item": [
+        {
+          "name": "Create Daily Sales",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2025-09-01\",\n  \"product\": \"PMS\",\n  \"openSL\": 20050,\n  \"supply\": 0,\n  \"overageShortageL\": 0,\n  \"availableL\": 20050,\n  \"closingSL\": 19420,\n  \"differenceL\": 1.2,\n  \"checkL\": 630,\n  \"openSR\": 2024011.69,\n  \"closingSR\": 2024642.89,\n  \"returnTT\": 0,\n  \"salesL\": 631.2,\n  \"rate\": 14.74,\n  \"value\": 9303.89,\n  \"cashSales\": 9303.89,\n  \"creditSales\": 0,\n  \"advances\": 3845,\n  \"shortageMomo\": 0,\n  \"cashAvailable\": 5458.89,\n  \"repaymentShortageMomo\": 0,\n  \"actualCash\": 0,\n  \"bankLodgement\": 5458.89,\n  \"cashToBank\": 5458.89,\n  \"enteredBy\": \"David Olere\",\n  \"receivedFromDebtors\": 0,\n  \"repaymentAdvances\": 0,\n  \"station\": \"KTC KPONE\",\n  \"status\": \"SUBMITTED\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/dailysales",
+              "host": ["{{baseUrl}}"],
+              "path": ["dailysales"]
+            }
+          }
+        },
+        {
+          "name": "Get Daily Sales by Station",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/dailysales/KTC KPONE",
+              "host": ["{{baseUrl}}"],
+              "path": ["dailysales", "KTC KPONE"]
+            }
+          }
+        },
+        {
+          "name": "Validate Daily Sales",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"VALIDATED\",\n  \"validatedBy\": \"Manager Name\",\n  \"validationNotes\": \"Sales data verified and approved\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/dailysales/validate/{{dailySalesId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["dailysales", "validate", "{{dailySalesId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tank Management",
+      "item": [
+        {
+          "name": "Create Tank",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tankName\": \"Tank 1\",\n  \"capacity\": 36000,\n  \"currentStock\": 18000,\n  \"product\": \"AGO\",\n  \"stationId\": \"ba110c51-08b0-488d-bbc4-a782712caeb1\",\n  \"pricePerLiter\": 13.50\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tanks",
+              "host": ["{{baseUrl}}"],
+              "path": ["tanks"]
+            }
+          }
+        },
+        {
+          "name": "Get Tank History",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tanks/{{tankId}}/history",
+              "host": ["{{baseUrl}}"],
+              "path": ["tanks", "{{tankId}}", "history"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Utility Management",
+      "item": [
+        {
+          "name": "Create Utility Bill",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dueDate\": \"2025-02-14\",\n  \"daysOverdue\": 170,\n  \"utility\": \"Electricity\",\n  \"provider\": \"Electricity Company of Ghana (ECG)\",\n  \"billNumber\": \"ECG-2025-001\",\n  \"period\": \"Dec 14, 2024 - Jan 14, 2025\",\n  \"consumption\": {\n    \"value\": 2260,\n    \"unit\": \"kWh\",\n    \"rate\": 1.64\n  },\n  \"amount\": 2640.00,\n  \"status\": \"Pending\",\n  \"priority\": \"High\",\n  \"stationId\": \"accra-central\",\n  \"stationName\": \"KTC Accra Central\",\n  \"createdBy\": \"Samuel Osei\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/utility",
+              "host": ["{{baseUrl}}"],
+              "path": ["utility"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Statutory Management",
+      "item": [
+        {
+          "name": "Create Statutory Record",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"EPA CERTIFICATE\",\n  \"title\": \"EPA\",\n  \"authority\": \"EPA\",\n  \"reference\": \"1234\",\n  \"registeredDate\": \"2025-01-01\",\n  \"issuedDate\": \"2020-01-01\",\n  \"expiresDate\": \"2026-01-01\",\n  \"fees\": \"10000\",\n  \"paymentStatus\": \"PENDING\",\n  \"assignee\": \"Operations Manager\",\n  \"notes\": \"Waiting for renewal\",\n  \"stationId\": \"7a22af6c-fd43-4f46-898c-3cbc1da6065b\",\n  \"stationName\": \"KTC TEMA COMM 11\",\n  \"createdBy\": \"FAM\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/statutory",
+              "host": ["{{baseUrl}}"],
+              "path": ["statutory"]
+            }
+          }
+        },
+        {
+          "name": "Get Statutory by Station (Paginated)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/statutory/station/{{stationId}}?page=0&size=10&sortBy=createdAt",
+              "host": ["{{baseUrl}}"],
+              "path": ["statutory", "station", "{{stationId}}"],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "10" },
+                { "key": "sortBy", "value": "createdAt" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Washing Bay",
+      "item": [
+        {
+          "name": "Create Washing Bay Entry",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2025-10-01\",\n  \"noOfVehicles\": 20,\n  \"totalSale\": 600,\n  \"washingBayCommission\": 150,\n  \"companyCommission\": 450,\n  \"balancing\": 350,\n  \"bankDeposit\": 400,\n  \"expenses\": 50,\n  \"kodsonStatus\": \"pending\",\n  \"notes\": \"Hello world\",\n  \"stationId\": \"ba110c51-08b0-488d-bbc4-a782712caeb1\",\n  \"createdBy\": \"David Olere\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/washingbay",
+              "host": ["{{baseUrl}}"],
+              "path": ["washingbay"]
+            }
+          }
+        },
+        {
+          "name": "Get Washing Bay by Station (Paginated)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/washingbay/station/{{stationId}}?page=0&size=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["washingbay", "station", "{{stationId}}"],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "10" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

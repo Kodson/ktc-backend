@@ -13,7 +13,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_DEFAULT;
 
@@ -31,12 +30,15 @@ public class WashingBay {
     @Column(name = "id", unique = true, updatable = false)
     private String id;
     private LocalDate date;
-    private double vehicles;
-    private double totalSales;
+    private int noOfVehicles;
+    private double totalSale;
+    private double washingBayCommission;
+    private double companyCommission;
+    private double balancing;
+    private double bankDeposit;
     private double expenses;
-    private double bank;
-    private double kodson;
-    private double operations;
-    private double electrition;
-    private String station;
+    private String kodsonStatus;
+    private String notes;
+    private String stationId;
+    private String createdBy;
 }

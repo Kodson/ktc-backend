@@ -74,7 +74,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers(SecurityConstant.PUBLIC_URLS).permitAll()
                         .requestMatchers(SecurityConstant.ADMIN_URLS).hasAnyRole("ADMIN", "SUPER_ADMIN")
-                        .requestMatchers(SecurityConstant.MANAGER_URLS).hasAnyRole("ADMIN", "MANAGER", "SUPER_ADMIN")
+                        .requestMatchers(SecurityConstant.MANAGER_URLS).hasAnyRole("ADMIN", "MANAGER", "SUPER_ADMIN", "STATION_MANAGER")
                         .requestMatchers("/api/**").hasAnyRole("ADMIN", "MANAGER", "USER", "ATTENDANT", "SUPER_ADMIN", "STATION_MANAGER")
                         .anyRequest().authenticated()
                 )

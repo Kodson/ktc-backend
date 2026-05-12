@@ -3,6 +3,7 @@ package com.kodsonApp.resource;
 import com.kodsonApp.DTO.ApprovalRequest;
 import com.kodsonApp.domain.DailySales;
 import com.kodsonApp.DTO.ValidationRequest;
+import com.kodsonApp.DTO.DailySalesWithCashToBankResponse;
 import com.kodsonApp.enumuration.ValidationStatus;
 import com.kodsonApp.service.DailySalesService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 @Slf4j
 @RestController
@@ -72,7 +76,7 @@ public class DailySalesResource {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "date") String sortBy,
-            @RequestParam(defaultValue = "desc") String sortOrder
+            @RequestParam(defaultValue = "asc") String sortOrder
     ) {
         Sort.Direction direction = sortOrder.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(direction, sortBy));
@@ -111,6 +115,35 @@ public class DailySalesResource {
             @PathVariable String product) {
         List<DailySales> salesHistory = dailySalesService.getDailySalesHistoryByStationAndProduct(station, product);
         return ResponseEntity.ok(salesHistory);
+    }
+
+    @GetMapping("/latest-by-date/{station}/{product}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'MANAGER', 'STATION_MANAGER', 'ATTENDANT')")
+    public ResponseEntity<DailySalesWithCashToBankResponse> getLatestDailySalesByStationAndProductByDate(
+            @PathVariable String station,
+            @PathVariable String product,
+            @RequestParam String targetDate) {
+        log.info("Getting latest daily sales for station: {}, product: {}, target date: {}", station, product, targetDate);
+        DailySalesWithCashToBankResponse response = dailySalesService.getLatestDailySalesByStationAndProductByDate(station, product, targetDate);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/latest-by-date-time/{station}/{product}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'MANAGER', 'STATION_MANAGER', 'ATTENDANT')")
+    public ResponseEntity<DailySalesWithCashToBankResponse> getLatestDailySalesByStationAndProductByDateTime(
+            @PathVariable String station,
+            @PathVariable String product,
+            @RequestParam String targetDateTime) {
+        log.info("Getting latest daily sales for station: {}, product: {}, target datetime: {}", station, product, targetDateTime);
+        
+        try {
+            LocalDateTime targetDate = LocalDateTime.parse(targetDateTime);
+            DailySalesWithCashToBankResponse response = dailySalesService.getLatestDailySalesByStationAndProductByDate(station, product, targetDate);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Invalid datetime format: {}", targetDateTime);
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

@@ -53,8 +53,10 @@ public class StatutoryService {
         return statutoryRepo.findByStationId(stationId);
     }
 
-    public List<Statutory> getStatutoryByStatus(String status) {
-        return statutoryRepo.findByStatus(status);
+    public Page<Statutory> getStatutoryByStation(String stationId, int page, int size, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "expiresDate");
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return statutoryRepo.findByStationId(stationId, pageable);
     }
 
     public List<Statutory> getStatutoryByType(String type) {
@@ -66,7 +68,7 @@ public class StatutoryService {
     }
 
     public List<Statutory> getStatutoryByStationAndStatus(String stationId, String status) {
-        return statutoryRepo.findByStationIdAndStatus(stationId, status);
+        return statutoryRepo.findByStationIdAndPaymentStatus(stationId, status);
     }
 
     public List<Statutory> getStatutoryExpiringBefore(LocalDate date) {
@@ -89,7 +91,7 @@ public class StatutoryService {
         statutory.setExpiresDate(statutoryDetails.getExpiresDate());
         statutory.setFees(statutoryDetails.getFees());
         statutory.setPaymentStatus(statutoryDetails.getPaymentStatus());
-        statutory.setStatus(statutoryDetails.getStatus());
+
         statutory.setAssignee(statutoryDetails.getAssignee());
         statutory.setStationId(statutoryDetails.getStationId());
         statutory.setStationName(statutoryDetails.getStationName());

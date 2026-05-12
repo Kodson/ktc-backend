@@ -34,20 +34,30 @@ public class WashinBayService {
         washingBayRepo.deleteById(id);
     }
 
-    public List<WashingBay> getWashingBayByUser(String station) {
-        return washingBayRepo.findByStation(station);
+    public List<WashingBay> getWashingBayByUser(String stationId) {
+        return washingBayRepo.findByStationId(stationId);
     }
 
     public WashingBay updateWashingBay(WashingBay washingBayDetails , String id) {
         WashingBay washingBay = washingBayRepo.findById(id).orElseThrow(() -> new RuntimeException("Washing Bay not found"));
         washingBay.setDate(washingBayDetails.getDate());
-        washingBay.setVehicles(washingBayDetails.getVehicles());
-        washingBay.setTotalSales(washingBayDetails.getTotalSales());
+        washingBay.setNoOfVehicles(washingBayDetails.getNoOfVehicles());
+        washingBay.setTotalSale(washingBayDetails.getTotalSale());
+        washingBay.setWashingBayCommission(washingBayDetails.getWashingBayCommission());
+        washingBay.setCompanyCommission(washingBayDetails.getCompanyCommission());
+        washingBay.setBalancing(washingBayDetails.getBalancing());
+        washingBay.setBankDeposit(washingBayDetails.getBankDeposit());
         washingBay.setExpenses(washingBayDetails.getExpenses());
-        washingBay.setBank(washingBayDetails.getBank());
-        washingBay.setKodson(washingBayDetails.getKodson());
-        washingBay.setElectrition(washingBayDetails.getElectrition());
-        washingBay.setOperations(washingBayDetails.getOperations());
+        washingBay.setKodsonStatus(washingBayDetails.getKodsonStatus());
+        washingBay.setNotes(washingBayDetails.getNotes());
+        washingBay.setStationId(washingBayDetails.getStationId());
+        washingBay.setCreatedBy(washingBayDetails.getCreatedBy());
         return washingBayRepo.save(washingBay);
+    }
+
+    public Page<WashingBay> getWashingBayByStationPaginated(String stationId, int page, int size, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), "date");
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return washingBayRepo.findByStationId(stationId, pageable);
     }
 }

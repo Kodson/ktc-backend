@@ -15,13 +15,17 @@ server:
   #url: jdbc:postgresql://localhost:5432/kodsonplus
   #username: kodsonuser
   #password: kodsonpass
+
+  #url: jdbc:postgresql://dpg-d34jecbuibrs73ajc93g-a/ktc_postgress
+  #username: ktc_postgress_user
+  #password: dXOlt03VIOvIl2BHitUe3uS7s5c5xrGP
   #
 spring:
 
   datasource:
-    url: jdbc:postgresql://dpg-d34jecbuibrs73ajc93g-a/ktc_postgress
-    username: ktc_postgress_user
-    password: dXOlt03VIOvIl2BHitUe3uS7s5c5xrGP
+    url: jdbc:postgresql://localhost:5432/kodsonplus
+    username: kodsonuser
+    password: kodsonpass
     driver-class-name: org.postgresql.Driver
     # HikariCP connection pooling for performance
     hikari:

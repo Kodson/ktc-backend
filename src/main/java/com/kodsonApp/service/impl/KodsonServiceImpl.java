@@ -93,7 +93,7 @@ public class KodsonServiceImpl implements KodsonService, UserDetailsService {
         }
     }
 
-    public Kodson register(String phone, String username, String email, String password) throws UserNotFoundException, UsernameExistException, EmailExistException, MessagingException, javax.mail.MessagingException, IOException {
+    public Kodson register(String phone, String username, String email, String password) throws UserNotFoundException, UsernameExistException, EmailExistException, MessagingException, IOException {
         validateNewUsernameAndEmail(EMPTY, username, email);
         Kodson kodson = new Kodson();
         kodson.setPhone(phone);
@@ -263,7 +263,7 @@ public class KodsonServiceImpl implements KodsonService, UserDetailsService {
 
 
     @Override
-    public void resetPassword(String mail, String password) throws MessagingException, EmailNotFoundException, javax.mail.MessagingException, IOException {
+    public void resetPassword(String mail, String password) throws MessagingException, EmailNotFoundException, IOException {
         Kodson kodson = repository.findUserByEmail(mail);
         if (kodson == null) {
             throw new EmailNotFoundException(NO_USER_FOUND_BY_EMAIL + mail);

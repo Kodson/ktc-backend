@@ -146,7 +146,7 @@ public class KodsonResource extends ExceptionHandling {
     }
 
     @PostMapping("/signUp")
-    public ResponseEntity<Kodson> register(@RequestBody Kodson kodson) throws UserNotFoundException, UsernameExistException, EmailExistException, MessagingException, javax.mail.MessagingException, IOException {
+    public ResponseEntity<Kodson> register(@RequestBody Kodson kodson) throws UserNotFoundException, UsernameExistException, EmailExistException, MessagingException, IOException {
         Kodson newUser = kodsonService.register(kodson.getPhone(),
                 kodson.getUsername(), kodson.getEmail(),kodson.getPassword());
 
@@ -210,7 +210,7 @@ public class KodsonResource extends ExceptionHandling {
 
     @PostMapping("/forgotPassword")
     public ResponseEntity<?> resetPassword(@Valid @RequestBody Kodson restaurant)
-            throws MessagingException, EmailNotFoundException, javax.mail.MessagingException, IOException, ExecutionException {
+            throws MessagingException, EmailNotFoundException, IOException, ExecutionException {
 
         // Check if email and password are present
         if (restaurant.getEmail() == null || restaurant.getPassword() == null) {

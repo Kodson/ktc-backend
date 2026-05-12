@@ -24,4 +24,13 @@ public interface DailySalesRepo extends JpaRepository<DailySales, String> {
     boolean existsByStationAndCreatedAtBetween(String station, LocalDateTime startDate, LocalDateTime endDate);
     Optional<DailySales> findFirstByStationAndProductOrderByCreatedAtDesc(String station, String product);
     List<DailySales> findByStationAndProductOrderByCreatedAtDesc(String station, String product);
+    
+    // New methods for target date functionality
+    Optional<DailySales> findFirstByStationAndProductAndCreatedAtLessThanEqualOrderByCreatedAtDesc(String station, String product, LocalDateTime targetDate);
+    List<DailySales> findByStationAndCreatedAtLessThanEqualOrderByCreatedAtDesc(String station, LocalDateTime targetDate);
+    List<DailySales> findByStationAndProductInAndCreatedAtLessThanEqualOrderByCreatedAtDesc(String station, List<String> products, LocalDateTime targetDate);
+    
+    // Methods to search by business date (date field) instead of createdAt
+    List<DailySales> findByStationAndProductOrderByDateDescCreatedAtDesc(String station, String product);
+    List<DailySales> findByStationOrderByDateDescCreatedAtDesc(String station);
 }

@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface KodsonService {
-    Kodson register(String phone, String username, String email, String password) throws UserNotFoundException, UsernameExistException, EmailExistException, MessagingException, javax.mail.MessagingException, IOException;
+    Kodson register(String phone, String username, String email, String password) throws UserNotFoundException, UsernameExistException, EmailExistException, MessagingException, IOException;
 
     List<Kodson> getUsers();
 
@@ -26,7 +26,7 @@ public interface KodsonService {
 
     void deleteUser(String username) throws IOException;
 
-    void resetPassword(String mail, String password) throws MessagingException, EmailNotFoundException, javax.mail.MessagingException, IOException;
+    void resetPassword(String mail, String password) throws MessagingException, EmailNotFoundException, IOException;
     Boolean verifyToken(String token);
 
     Boolean verifyOtp(String username);
