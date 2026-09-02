@@ -31,9 +31,9 @@ server:
 spring:
 
   datasource:
-    url: jdbc:postgresql://dpg-d81fp83rjlhs73b4jk0g-a/ktc_kdvl
+    url: jdbc:postgresql://localhost:5432/ktc_postgress
     username: ktc_kodson_user
-    password: yCcvufpZ0JIVVtsaWQ7xfwOKT4voRaBJ
+    password: 0040105715@Kodson12345
     driver-class-name: org.postgresql.Driver
     # HikariCP connection pooling for performance
     hikari:
