@@ -18,7 +18,7 @@ COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
 # Copy the built jar to the container
-RUN cp target/*.jar app.jar
+RUN cp target/ktc-backend.jar app.jar
 
 # Expose the port the app runs on
 EXPOSE 8080
