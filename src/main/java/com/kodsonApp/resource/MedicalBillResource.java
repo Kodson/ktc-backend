@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/medicalBill")
+@RequestMapping("/api2/medicalBill")
 public class MedicalBillResource {
 
     @Autowired

@@ -11,14 +11,14 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = { "/","api/utility"})
+@RequestMapping(path = { "/","api2/utility"})
 @RequiredArgsConstructor
 public class UtiltyResource {
     private final UtilityService utilityService;
 
     @PostMapping
     public ResponseEntity<Utility> createUtility(@RequestBody Utility utility) {
-        return ResponseEntity.created(URI.create("/api/utility/utilityID")).body(utilityService.createUtility(utility));
+        return ResponseEntity.created(URI.create("/api2/utility/utilityID")).body(utilityService.createUtility(utility));
     }
 
     @GetMapping

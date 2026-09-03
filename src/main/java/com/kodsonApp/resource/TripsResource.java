@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/trips")
+@RequestMapping("/api2/trips")
 public class TripsResource {
 
     @Autowired

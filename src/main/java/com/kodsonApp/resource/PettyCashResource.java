@@ -14,14 +14,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = { "/","api/petty"})
+@RequestMapping(path = { "/","api2/petty"})
 @RequiredArgsConstructor
 public class PettyCashResource {
     private final PettyCashService pettyCashService;
 
     @PostMapping
     public ResponseEntity<PettyCash> createPettyCash(@RequestBody PettyCash pettyCash) throws IOException {
-        return ResponseEntity.created(URI.create("/api/petty/pettyID")).body(pettyCashService.createPettyCash(pettyCash));
+        return ResponseEntity.created(URI.create("/api2/petty/pettyID")).body(pettyCashService.createPettyCash(pettyCash));
     }
 
     @GetMapping

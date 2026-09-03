@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/supply")
+@RequestMapping("/api2/supply")
 @CrossOrigin(origins = "*")
 public class SupplyResource {
 

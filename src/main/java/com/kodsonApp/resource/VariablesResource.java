@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/variables")
+@RequestMapping("/api2/variables")
 public class VariablesResource {
 
     @Autowired

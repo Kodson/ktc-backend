@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/price-updates")
+@RequestMapping("/api2/price-updates")
 @CrossOrigin(origins = "*")
 public class PriceUpdateResource {
 

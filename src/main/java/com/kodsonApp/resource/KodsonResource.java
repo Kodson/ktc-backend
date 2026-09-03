@@ -50,7 +50,7 @@ import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 
 @Slf4j
 @RestController
-@RequestMapping(path = { "/","api/user"})
+@RequestMapping(path = { "/","api2/user"})
 public class KodsonResource extends ExceptionHandling {
     private KodsonService kodsonService;
     private StationsService stationsService;
@@ -268,7 +268,7 @@ public class KodsonResource extends ExceptionHandling {
 
     @GetMapping(path = "/image/{username}/{fileName}", produces = IMAGE_JPEG_VALUE)
     public byte[] getProfileImage(@PathVariable("username") String username, @PathVariable("fileName") String fileName) throws IOException {
-        return Files.readAllBytes(Paths.get(System.getProperty("user.home") + "/api/user/" + username + "/" + fileName));
+        return Files.readAllBytes(Paths.get(System.getProperty("user.home") + "/api2/user/" + username + "/" + fileName));
     }
 
     @GetMapping(path = "/image/profile/{username}", produces = IMAGE_JPEG_VALUE)

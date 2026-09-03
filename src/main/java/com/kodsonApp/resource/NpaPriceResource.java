@@ -11,14 +11,14 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping(path = { "/","api/npa"})
+@RequestMapping(path = { "/","api2/npa"})
 @RequiredArgsConstructor
 public class NpaPriceResource {
     private final NpaPriceService npaPriceService;
 
     @PostMapping
     public ResponseEntity<NpaPrice> createNpa(@RequestBody NpaPrice npaPrice) {
-        return ResponseEntity.created(URI.create("/api/npa/npaID")).body(npaPriceService.createProfit(npaPrice));
+        return ResponseEntity.created(URI.create("/api2/npa/npaID")).body(npaPriceService.createProfit(npaPrice));
     }
 
     @GetMapping

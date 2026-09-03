@@ -11,14 +11,14 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = { "/", "api/major" })
+@RequestMapping(path = { "/", "api2/major" })
 @RequiredArgsConstructor
 public class MajorTastResource {
     private final MajorTaskService majorTaskService;
 
     @PostMapping
     public ResponseEntity<MajorTask> createMajorTask(@RequestBody MajorTask majorTask) {
-        return ResponseEntity.created(URI.create("/api/major/" + majorTask.getId())).body(majorTaskService.createMajorTask(majorTask));
+        return ResponseEntity.created(URI.create("/api2/major/" + majorTask.getId())).body(majorTaskService.createMajorTask(majorTask));
     }
 
     @GetMapping

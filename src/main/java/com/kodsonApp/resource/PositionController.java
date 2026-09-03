@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/position")
+@RequestMapping("/api2/position")
 public class PositionController {
 
     @Autowired

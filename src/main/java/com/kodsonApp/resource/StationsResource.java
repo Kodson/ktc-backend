@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@RequestMapping(path = { "/","api/stations"})
+@RequestMapping(path = { "/","api2/stations"})
 @RequiredArgsConstructor
 @Slf4j
 public class StationsResource {

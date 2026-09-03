@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = { "/", "api/items" })
+@RequestMapping(path = { "/", "api2/items" })
 @RequiredArgsConstructor
 public class ItemRequestResource {
     private final ItemRequestService itemRequestService;

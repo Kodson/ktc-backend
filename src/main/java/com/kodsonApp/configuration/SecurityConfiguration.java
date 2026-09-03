@@ -1,9 +1,8 @@
 package com.kodsonApp.configuration;
 
-import com.kodsonApp.constant.SecurityConstant;
-import com.kodsonApp.filter.JwtAccessDeniedHandler;
-import com.kodsonApp.filter.JwtAuthenticationEntryPoint;
-import com.kodsonApp.filter.JwtAuthorizationFilter;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +15,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,10 +24,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import com.kodsonApp.constant.SecurityConstant;
+import com.kodsonApp.filter.JwtAccessDeniedHandler;
+import com.kodsonApp.filter.JwtAuthenticationEntryPoint;
+import com.kodsonApp.filter.JwtAuthorizationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -75,7 +75,7 @@ public class SecurityConfiguration {
                         .requestMatchers(SecurityConstant.PUBLIC_URLS).permitAll()
                         .requestMatchers(SecurityConstant.ADMIN_URLS).hasAnyRole("ADMIN", "SUPER_ADMIN")
                         .requestMatchers(SecurityConstant.MANAGER_URLS).hasAnyRole("ADMIN", "MANAGER", "SUPER_ADMIN", "STATION_MANAGER")
-                        .requestMatchers("/api/**").hasAnyRole("ADMIN", "MANAGER", "USER", "ATTENDANT", "SUPER_ADMIN", "STATION_MANAGER")
+                        .requestMatchers("/api2/**").hasAnyRole("ADMIN", "MANAGER", "USER", "ATTENDANT", "SUPER_ADMIN", "STATION_MANAGER")
                         .anyRequest().authenticated()
                 )
 

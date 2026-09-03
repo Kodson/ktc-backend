@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/payroll")
+@RequestMapping("/api2/payroll")
 public class PayRollResource {
 
     @Autowired

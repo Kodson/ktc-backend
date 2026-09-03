@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tanks")
+@RequestMapping("/api2/tanks")
 @CrossOrigin(origins = "*")
 public class TankResource {
 

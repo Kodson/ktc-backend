@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/surcharge")
+@RequestMapping("/api2/surcharge")
 public class SurchargeResource {
     @Autowired
     private SurchargeService surchargeService;

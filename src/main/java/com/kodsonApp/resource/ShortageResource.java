@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/shortages")
+@RequestMapping("/api2/shortages")
 public class ShortageResource {
 
     @Autowired

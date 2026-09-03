@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/reports")
+@RequestMapping("/api2/reports")
 @RequiredArgsConstructor
 @Slf4j
 public class ReportingResource {

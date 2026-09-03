@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/FuelDispense")
+@RequestMapping("/api2/FuelDispense")
 public class DispenseResource {
 
     @Autowired

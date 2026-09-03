@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 @Slf4j
 @RestController
-@RequestMapping("/api/dailysales")
+@RequestMapping("/api2/dailysales")
 @CrossOrigin(origins = "*")
 public class DailySalesResource {
 

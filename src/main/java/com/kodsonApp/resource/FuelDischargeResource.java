@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/FuelDischarge")
+@RequestMapping("/api2/FuelDischarge")
 public class FuelDischargeResource {
 
     @Autowired

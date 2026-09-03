@@ -13,14 +13,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = { "/","api/statutory"})
+@RequestMapping(path = { "/","api2/statutory"})
 @RequiredArgsConstructor
 public class StatutoryResource {
     private final StatutoryService statutoryService;
 
     @PostMapping
     public ResponseEntity<Statutory> createStatutory(@RequestBody Statutory statutory) {
-        return ResponseEntity.created(URI.create("/api/statutory/statutoryID")).body(statutoryService.createStatutory(statutory));
+        return ResponseEntity.created(URI.create("/api2/statutory/statutoryID")).body(statutoryService.createStatutory(statutory));
     }
 
     @GetMapping

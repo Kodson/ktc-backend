@@ -2,7 +2,7 @@ jwt:
   secret: '[a-zA-Z0-9._]^+$Guidelines89797987forAlphabeticalArraNumeralsandOtherSymbo$'
 
 server:
-  port: 8081
+  port: 8082
   # Performance optimizations
   tomcat:
     threads:
@@ -129,5 +129,5 @@ logging:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
-SERVER_PORT: 8081
+SERVER_PORT: 8082
 VERIFY_EMAIL_HOST: https://kodsonsystems.com:${SERVER_PORT}

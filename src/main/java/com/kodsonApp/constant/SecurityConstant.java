@@ -14,25 +14,25 @@ public class SecurityConstant {
 
     // Properly secured public URLs - only authentication and health endpoints
     public static final String[] PUBLIC_URLS = {
-        "/api/auth/login",
-        "/api/auth/register",
-        "/api/user/login", // <-- Added to allow public access
+        "/api2/auth/login",
+        "/api2/auth/register",
+        "/api2/user/login", // <-- Added to allow public access
         "/actuator/health",
         "/actuator/info",
-        "/api/public/**",
+        "/api2/public/**",
         "/swagger-ui/**",
         "/v3/api-docs/**"
     };
 
     // Admin only URLs
     public static final String[] ADMIN_URLS = {
-        "/api/admin/**",
+        "/api2/admin/**",
         "/actuator/**"
     };
 
     // Manager and above URLs
     public static final String[] MANAGER_URLS = {
-        "/api/reports/**",
-        "/api/analytics/**"
+        "/api2/reports/**",
+        "/api2/analytics/**"
     };
 }
