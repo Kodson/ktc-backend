@@ -1,5 +1,6 @@
 package com.kodsonApp;
 
+import com.kodsonApp.configuration.DatasourceConfigLogger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
@@ -19,7 +20,9 @@ import java.util.Arrays;
 @EnableScheduling
 public class KodsonApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(KodsonApplication.class, args);
+		SpringApplication application = new SpringApplication(KodsonApplication.class);
+		application.addListeners(new DatasourceConfigLogger());
+		application.run(args);
 	}
 	@Bean
 	public CorsFilter corsFilter() {
