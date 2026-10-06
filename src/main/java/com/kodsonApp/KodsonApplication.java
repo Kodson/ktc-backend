@@ -28,7 +28,8 @@ public class KodsonApplication {
 		corsConfiguration.setAllowCredentials(true);
 		corsConfiguration.setAllowedOrigins(Arrays.asList("http://192.168.88.237:2443", "http://41.139.44.167:2443",
 				"https://192.168.88.237:2443", "https://41.139.44.167:2443","https://kodsonsystems.com:2443","https://kodsonsystems.com:2080",
-				"http://localhost:5173", "http://frontend:2443", "http://localhost:3000","http://localhost:3001"));
+				"http://localhost:5173", "http://frontend:2443", "http://localhost:3000","http://localhost:3001",
+			    "https://www.ktc.kodsonsystems.com","https://ktc.kodsonsystems.com","https://www.kodsonsystems.com","https://kodsonsystems.com"));
 		corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
 				"Accept", "Jwt-Token", "Authorization", "Origin, Accept", "X-Requested-With",
 				"Access-Control-Request-Method", "Access-Control-Request-Headers"));

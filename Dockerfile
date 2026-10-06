@@ -21,7 +21,7 @@ RUN ./mvnw clean package -DskipTests
 RUN cp target/ktc-backend.jar app.jar
 
 # Expose the port the app runs on
-EXPOSE 8080
+EXPOSE 8082
 
 # Run the jar file
 ENTRYPOINT ["java","-jar","/app/app.jar"]

@@ -1,8 +1,8 @@
 jwt:
-  secret: '[a-zA-Z0-9._]^+$Guidelines89797987forAlphabeticalArraNumeralsandOtherSymbo$'
+  secret: ${JWT_SECRET:[a-zA-Z0-9._]^+$Guidelines89797987forAlphabeticalArraNumeralsandOtherSymbo$}
 
 server:
-  port: 8082
+  port: ${SERVER_PORT:8082}
   # Performance optimizations
   tomcat:
     threads:
@@ -31,9 +31,9 @@ server:
 spring:
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/ktc_postgress
-    username: ktc_kodson_user
-    password: 0040105715@Kodson12345
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ktc_postgress}
+    username: ${SPRING_DATASOURCE_USERNAME:ktc_kodson_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:0040105715@Kodson12345}
     driver-class-name: org.postgresql.Driver
     # HikariCP connection pooling for performance
     hikari:
@@ -92,10 +92,10 @@ spring:
 
 # Mail configuration
 mail:
-  host: mail.kodsonplusltd.com
-  port: 587
-  username: info@kodsonplusltd.com
-  password: kds23#plus
+  host: ${MAIL_HOST:mail.kodsonplusltd.com}
+  port: ${MAIL_PORT:587}
+  username: ${MAIL_USERNAME:info@kodsonplusltd.com}
+  password: ${MAIL_PASSWORD:kds23#plus}
   properties:
     mail:
       smtp:
