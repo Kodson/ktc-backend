@@ -1,13 +1,10 @@
 # Production Environment Configuration
 spring:
-  profiles:
-    active: prod
-
   # PostgreSQL Production Database
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://ktc_kodson_user:yCcvufpZ0JIVVtsaWQ7xfwOKT4voRaBJ@dpg-d81fp83rjlhs73b4jk0g-a/ktc_kdvl}
-    username: ${DATABASE_USERNAME:kodsonuser}
-    password: ${DATABASE_PASSWORD:kodsonpass}
+    username: ${DATABASE_USERNAME:ktc_kodson_user}
+    password: ${DATABASE_PASSWORD:0040105715@Kodson12345}
 
   jpa:
     hibernate:
