@@ -1,30 +1,8 @@
-# Use an official OpenJDK runtime as a parent image
-FROM eclipse-temurin:21-jdk-alpine
+FROM eclipse-temurin:21-jre
 
-# Set the working directory in the container
-WORKDIR /app
+COPY target/*.jar app.jar
 
-# Copy the Maven wrapper and pom.xml
-COPY mvnw mvnw.cmd pom.xml ./
-COPY .mvn .mvn
-
-# Fix permissions for Maven wrapper
-RUN chmod +x mvnw
-
-# Copy the source code
-COPY src ./src
-
-# Build the application
-RUN ./mvnw clean package -DskipTests
-
-# Copy the built jar to the container
-RUN cp target/ktc-backend.jar app.jar
-
-# Expose the port the app runs on
 EXPOSE 8082
 
-# Self-hosted prod (Postgres on Ubuntu host — run via docker compose with network_mode: host)
-ENV SPRING_PROFILES_ACTIVE=prod
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
-# Run the jar file
-ENTRYPOINT ["java","-jar","/app/app.jar"]
