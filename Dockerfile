@@ -23,7 +23,7 @@ RUN cp target/ktc-backend.jar app.jar
 # Expose the port the app runs on
 EXPOSE 8082
 
-# Use prod remote DB when no env/.env is provided (override with --env-file or platform env vars)
+# Self-hosted prod (Postgres on Ubuntu host — use compose extra_hosts + host.docker.internal)
 ENV SPRING_PROFILES_ACTIVE=prod
 
 # Run the jar file

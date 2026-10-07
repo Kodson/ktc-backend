@@ -1,21 +1,19 @@
-# Production Environment Configuration
+# Production on Ubuntu: PostgreSQL on the host, backend in Docker (host.docker.internal).
 spring:
-  # PostgreSQL Production Database
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ktc_postgress}
-    username: ${SPRING_DATASOURCE_USERNAME:ktc_kodson_user}
-    password: ${SPRING_DATASOURCE_PASSWORD:0040105715@Kodson12345}
+    url: "${SPRING_DATASOURCE_URL:jdbc:postgresql://host.docker.internal:5432/ktc_postgress}"
+    username: "${SPRING_DATASOURCE_USERNAME:ktc_kodson_user}"
+    password: "${SPRING_DATASOURCE_PASSWORD:0040105715@Kodson12345}"
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: validate  # Never auto-update schema in production
+      ddl-auto: update
     show-sql: false
     properties:
       hibernate:
         format_sql: false
 
-  # Redis Production
   data:
     redis:
       host: ${REDIS_HOST:localhost}
@@ -23,7 +21,6 @@ spring:
       password: ${REDIS_PASSWORD:}
       database: 0
 
-# Production logging
 logging:
   level:
     com.kodsonApp: INFO
@@ -34,11 +31,9 @@ logging:
     max-size: 100MB
     max-history: 30
 
-# Production security
 server:
   ssl:
     enabled: ${SSL_ENABLED:false}
     key-store: ${SSL_KEYSTORE_PATH:}
     key-store-password: ${SSL_KEYSTORE_PASSWORD:}
     key-store-type: PKCS12
-
