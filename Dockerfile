@@ -23,7 +23,7 @@ RUN cp target/ktc-backend.jar app.jar
 # Expose the port the app runs on
 EXPOSE 8082
 
-# Self-hosted prod (Postgres on Ubuntu host — use compose extra_hosts + host.docker.internal)
+# Self-hosted prod (Postgres on Ubuntu host — run via docker compose with network_mode: host)
 ENV SPRING_PROFILES_ACTIVE=prod
 
 # Run the jar file
