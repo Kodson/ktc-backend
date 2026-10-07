@@ -1,8 +1,13 @@
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:21-jre-alpine
 
-COPY target/*.jar app.jar
+WORKDIR /app
+
+COPY target/ktc-backend.jar app.jar
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh && apk add --no-cache netcat-openbsd
 
 EXPOSE 8082
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENV SPRING_PROFILES_ACTIVE=prod
 
+ENTRYPOINT ["/docker-entrypoint.sh"]

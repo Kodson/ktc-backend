@@ -14,7 +14,7 @@ server:
 spring:
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ktc_postgress}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://127.0.0.1:5432/ktc_postgress}
     username: ${SPRING_DATASOURCE_USERNAME:ktc_kodson_user}
     password: "${SPRING_DATASOURCE_PASSWORD:0040105715@Kodson12345}"
     driver-class-name: org.postgresql.Driver
