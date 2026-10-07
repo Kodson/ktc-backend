@@ -1,8 +1,9 @@
-# Production on Ubuntu: PostgreSQL on host OS; use docker compose network_mode: host + 127.0.0.1.
+# Production on Ubuntu: PostgreSQL on host OS; docker compose/run with network_mode: host.
+# Defaults below apply when SPRING_DATASOURCE_* env vars are unset (Spring Boot relaxed binding).
 spring:
   datasource:
-    url: "${SPRING_DATASOURCE_URL:jdbc:postgresql://127.0.0.1:5432/ktc_postgress}"
-    username: "${SPRING_DATASOURCE_USERNAME:ktc_kodson_user}"
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://127.0.0.1:5432/ktc_postgress}
+    username: ${SPRING_DATASOURCE_USERNAME:ktc_kodson_user}
     password: "${SPRING_DATASOURCE_PASSWORD:0040105715@Kodson12345}"
     driver-class-name: org.postgresql.Driver
 
@@ -16,9 +17,9 @@ spring:
 
   data:
     redis:
-      host: ${REDIS_HOST:localhost}
-      port: ${REDIS_PORT:6379}
-      password: ${REDIS_PASSWORD:}
+      host: localhost
+      port: 6379
+      password:
       database: 0
 
 logging:
@@ -33,7 +34,4 @@ logging:
 
 server:
   ssl:
-    enabled: ${SSL_ENABLED:false}
-    key-store: ${SSL_KEYSTORE_PATH:}
-    key-store-password: ${SSL_KEYSTORE_PASSWORD:}
-    key-store-type: PKCS12
+    enabled: false

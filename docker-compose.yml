@@ -1,11 +1,9 @@
-# Ubuntu: PostgreSQL on host (listens on 127.0.0.1). Backend uses host network so 127.0.0.1:5432 works.
+# Ubuntu: PostgreSQL on host. Credentials in application-prod.yml (profile prod).
 services:
   backend:
+    container_name: ktc-backend
     build: .
     restart: unless-stopped
     network_mode: host
-    env_file:
-      - .env
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      SPRING_DATASOURCE_URL: jdbc:postgresql://127.0.0.1:5432/ktc_postgress

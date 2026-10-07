@@ -4,8 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class DatasourceConfigLogger implements ApplicationListener<ApplicationEnvironmentPreparedEvent> {
 
@@ -21,19 +23,27 @@ public class DatasourceConfigLogger implements ApplicationListener<ApplicationEn
         String url = env.getProperty("spring.datasource.url");
         String username = env.getProperty("spring.datasource.username");
 
-        boolean dotenvLoaded = env instanceof ConfigurableEnvironment configurable
-                && configurable.getPropertySources().contains(DotEnvEnvironmentPostProcessor.PROPERTY_SOURCE_NAME);
-        String dotenvPath = DotEnvLoader.findEnvFile().map(Object::toString).orElse("(not found)");
-
         log.info("=== Database connection configuration ===");
         log.info("Active profile(s): {}", profiles);
         log.info("spring.datasource.url: {}", url);
         log.info("spring.datasource.username: {}", username);
-        log.info(".env file path: {}", dotenvPath);
-        log.info(".env property source loaded: {}", dotenvLoaded);
-        log.info("SPRING_DATASOURCE_URL env var present: {}", System.getenv("SPRING_DATASOURCE_URL") != null);
-        log.info("SPRING_PROFILES_ACTIVE env var: {}", System.getenv("SPRING_PROFILES_ACTIVE"));
-        log.info("DATABASE_URL env var present: {}", System.getenv("DATABASE_URL") != null);
+        if (runningInDocker() && usesLocalhostDatabase(url)) {
+            log.warn(
+                    "Postgres is on the Ubuntu HOST but this container uses bridge networking. "
+                            + "127.0.0.1 inside the container is NOT the host. "
+                            + "Recreate with: docker run --network host ... OR docker compose up (network_mode: host).");
+        }
         log.info("=========================================");
+    }
+
+    private static boolean runningInDocker() {
+        return Files.exists(Path.of("/.dockerenv"));
+    }
+
+    private static boolean usesLocalhostDatabase(String url) {
+        if (url == null) {
+            return false;
+        }
+        return url.contains("127.0.0.1") || url.contains("localhost");
     }
 }
