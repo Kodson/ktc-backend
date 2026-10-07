@@ -2,9 +2,10 @@
 spring:
   # PostgreSQL Production Database
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://ktc_kodson_user:yCcvufpZ0JIVVtsaWQ7xfwOKT4voRaBJ@dpg-d81fp83rjlhs73b4jk0g-a/ktc_kdvl}
-    username: ${DATABASE_USERNAME:ktc_kodson_user}
-    password: ${DATABASE_PASSWORD:0040105715@Kodson12345}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ktc_postgress}
+    username: ${SPRING_DATASOURCE_USERNAME:ktc_kodson_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:0040105715@Kodson12345}
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
